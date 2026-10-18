@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ConverterWorkspace from '../../components/ConverterWorkspace.astro';
+import FormatMatrixGrid from '../../components/FormatMatrixGrid.astro';
+import { BANK_PRESETS } from '../../config/bankPresets';
+import type { BankPreset } from '../../utils/types';
+
+export function getStaticPaths() {
+  return BANK_PRESETS.map(preset => ({
+    params: { slug: preset.slug },
+    props: { preset }
+  }));
+}
+
+interface Props {
+  preset: BankPreset;
+}
+
+const { preset } = Astro.props;
+
+const bankFaqs = [
+  {
+    question: `What INTU.BID code does FinFormat use for ${preset.name}?`,
+    answer: `FinFormat injects official Intuit Bank ID ${preset.intuBid} directly into the <INTU.BID> header so QuickBooks recognizes the file as an authorized ${preset.name} Web Connect download.`
+  },
+  {
+    question: `Does ${preset.name} export positive or negative expenses?`,
+    answer: preset.requiresSignFlip
+      ? `${preset.name} exports card charges as positive amounts. FinFormat automatically flips positive charges to negative outflows so your expenses never import as deposits.`
+      : `${preset.name} exports standard signed amounts (- for debits, + for credits). No sign inversion is needed.`
+  },
+  {
+    question: `Is it safe to upload my ${preset.name} statements here?`,
+    answer: `Your statement is never uploaded to any cloud server. FinFormat runs 100% inside your browser memory. Your ${preset.name} account number, balance, and payee list remain private on your computer.`
+  }
+];
+---
+
+<BaseLayout
+  title={`Convert ${preset.name} CSV to QuickBooks QBO — FinFormat`}
+  description={`Convert ${preset.name} CSV statements into QuickBooks .QBO Web Connect format. Official INTU.BID ${preset.intuBid}, 100% client-side with zero server uploads.`}
+  canonicalPath={`/banks/${preset.slug}`}
+  faqs={bankFaqs}
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 60px;">
+    
+    <!-- Hero Header -->
+    <section style="margin-bottom: 28px;">
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="badge-navy">{preset.name.split('(')[0].trim()}</span>
+        <span class="badge-lime">INTU.BID: {preset.intuBid}</span>
+        {preset.requiresSignFlip && <span class="badge-lilac">AUTO SIGN FLIPPER ACTIVE</span>}
+        {preset.hasFees && <span class="badge-lime">FEE SPLITTER ENABLED</span>}
+      </div>
+      <h1 class="display-lg display-serif" style="max-width: 920px; margin-bottom: 14px;">
+        Convert {preset.name} CSV to QuickBooks QBO
+      </h1>
+      <p class="body-lg" style="max-width: 780px; color: #404040;">
+        {preset.description} Pre-loaded with official Intuit FID {preset.intuBid} and automatic header sanitization.
+      </p>
+    </section>
+
+    <!-- Pre-Configured Interactive Workbench -->
+    <ConverterWorkspace 
+      initialSource="CSV"
+      initialTarget="QBO"
+      presetSlug={preset.slug}
+      bankName={preset.name}
+      initialIntuBid={preset.intuBid}
+      initialAccountType={preset.defaultAccountType}
+      defaultFlipSigns={preset.requiresSignFlip}
+      defaultSplitFees={preset.hasFees}
+    />
+
+    <!-- Color Block: Step-by-Step Bank Export Guide -->
+    <section class="color-block-section color-block-lime">
+      <div style="max-width: 860px;">
+        <span class="eyebrow" style="color: #2b542c; margin-bottom: 12px; display: inline-block;">Export Tutorial</span>
+        <h2 class="display-lg" style="margin-bottom: 18px;">
+          How to download your CSV from {preset.name.split('(')[0].trim()}
+        </h2>
+        <p class="body" style="margin-bottom: 28px; color: #173819;">
+          Follow these official steps to obtain your raw transaction spreadsheet before dropping it into FinFormat:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          {preset.exportInstructions.map((step, idx) => (
+            <div style="background-color: rgba(255, 255, 255, 0.7); border-radius: var(--rounded-md); padding: clamp(12px, 3vw, 16px) clamp(14px, 3vw, 20px); display: flex; gap: 14px; align-items: center; min-width: 0; box-sizing: border-box;">
+              <span style="display: inline-flex; width: 32px; height: 32px; border-radius: 50%; background-color: #000000; color: #FFFFFF; font-weight: 700; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">
+                {idx + 1}
+              </span>
+              <span class="body-sm" style="font-weight: 500; color: #18181b; min-width: 0; overflow-wrap: break-word;">{step}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Contextual FAQ Accordion -->
+    <section class="color-block-section color-block-cream">
+      <div style="max-width: 860px;">
+        <span class="eyebrow" style="color: #78350F; margin-bottom: 12px; display: inline-block;">Banking Details</span>
+        <h2 class="display-lg" style="margin-bottom: 24px;">
+          {preset.name.split('(')[0].trim()} Compatibility FAQs
+        </h2>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          {bankFaqs.map(item => (
+            <details style="background-color: rgba(255, 255, 255, 0.7); border-radius: var(--rounded-md); padding: clamp(14px, 3vw, 18px) clamp(16px, 3vw, 24px); cursor: pointer; min-width: 0; box-sizing: border-box;">
+              <summary style="font-size: 17px; font-weight: 600; outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                <span>{item.question}</span>
+                <span style="font-size: 18px;">+</span>
+              </summary>
+              <p class="body" style="margin-top: 12px; color: #27272a; line-height: 1.6;">
+                {item.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Full Matrix -->
+    <FormatMatrixGrid currentSlug={preset.slug} />
+
+  </div>
+</BaseLayout>

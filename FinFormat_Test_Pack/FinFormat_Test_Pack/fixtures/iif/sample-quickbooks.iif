@@ -1,0 +1,18 @@
+!TRNS	TRNSTYPE	DATE	ACCNT	NAME	AMOUNT	DOCNUM	MEMO	CLEAR
+!SPL	TRNSTYPE	DATE	ACCNT	NAME	AMOUNT	DOCNUM	MEMO	CLEAR
+!ENDTRNS
+TRNS	DEPOSIT	01/05/2026	Checking	Shopify payout	1250.00		Shopify payout Jan 5	N
+SPL	DEPOSIT	01/05/2026	Uncategorized Income	Shopify payout	-1250.00		Shopify payout Jan 5	N
+ENDTRNS
+TRNS	CHECK	01/06/2026	Checking	Office Depot, #441	-84.17		Paper, toner and folders	N
+SPL	CHECK	01/06/2026	Uncategorized Expense	Office Depot, #441	84.17		Paper, toner and folders	N
+ENDTRNS
+TRNS	CHECK	01/07/2026	Checking	Stripe processing fee	-18.35		Stripe processing fee Jan 7	N
+SPL	CHECK	01/07/2026	Uncategorized Expense	Stripe processing fee	18.35		Stripe processing fee Jan 7	N
+ENDTRNS
+TRNS	DEPOSIT	01/08/2026	Checking	ACME client payment	950.00		Invoice "1042" payment	N
+SPL	DEPOSIT	01/08/2026	Uncategorized Income	ACME client payment	-950.00		Invoice "1042" payment	N
+ENDTRNS
+TRNS	CHECK	01/09/2026	Checking	Amazon Web Services	-42.99		Cloud services	N
+SPL	CHECK	01/09/2026	Uncategorized Expense	Amazon Web Services	42.99		Cloud services	N
+ENDTRNS

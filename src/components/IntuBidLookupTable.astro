@@ -1,0 +1,97 @@
+---
+import { INTU_BID_DIRECTORY } from '../config/intuBidDirectory';
+---
+
+<div class="bezel-tray" style="margin-top: 24px; margin-bottom: 40px;">
+  <div class="bezel-core">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+      <div>
+        <h2 class="card-title" style="margin-bottom: 4px;">Search Intuit Bank ID (INTU.BID) Directory</h2>
+        <p class="body-sm" style="color: #525252;">Search 60+ verified US, Canadian, and UK banking identifiers recognized by QuickBooks.</p>
+      </div>
+
+      <div style="width: 100%; max-width: 360px;">
+        <input 
+          type="text" 
+          id="bidSearchInput" 
+          class="form-input" 
+          style="width: 100%;" 
+          placeholder="Search bank name or FID..." 
+          aria-label="Search Bank ID Directory"
+        />
+      </div>
+    </div>
+
+    <div class="mobile-table-hint" style="display: none; padding: 8px 12px; background-color: #F1F5F9; border: 1px solid var(--color-hairline); border-bottom: none; border-radius: var(--rounded-md) var(--rounded-md) 0 0; font-size: 11px; color: #475569; text-align: center; font-family: var(--font-mono);">
+      ↔ Swipe table horizontally to see full institution specs
+    </div>
+
+    <div class="table-scroll-wrapper" style="max-height: 440px; overflow-y: auto; overflow-x: auto; width: 100%; max-width: 100%; min-width: 0; -webkit-overflow-scrolling: touch; border: 1px solid var(--color-hairline); border-radius: var(--rounded-md);">
+      <table style="width: 100%; min-width: 600px; border-collapse: collapse; text-align: left; font-size: 14px;">
+        <thead style="position: sticky; top: 0; background-color: #F8FAFC; border-bottom: 1px solid #E2E8F0; z-index: 1;">
+          <tr>
+            <th style="padding: 12px 16px;">INTU.BID</th>
+            <th style="padding: 12px 16px;">Financial Institution Name</th>
+            <th style="padding: 12px 16px;">Default Account</th>
+            <th style="padding: 12px 16px;">Routing #</th>
+            <th style="padding: 12px 16px;">Notes / Compatibility</th>
+          </tr>
+        </thead>
+        <tbody id="bidTableBody">
+          {INTU_BID_DIRECTORY.map(b => (
+            <tr class="bid-row" data-name={b.name.toLowerCase()} data-fid={b.fid} data-routing={b.routingNumber || ''} style="border-bottom: 1px solid #F1F5F9;">
+              <td style="padding: 12px 16px; font-family: var(--font-mono); font-weight: 700; color: #2563EB;">
+                {b.fid}
+              </td>
+              <td style="padding: 12px 16px; font-weight: 600;">
+                {b.name}
+              </td>
+              <td style="padding: 12px 16px;">
+                <span class={b.accountType === 'CREDITCARD' ? 'badge-lilac' : 'badge-lime'}>
+                  {b.accountType}
+                </span>
+              </td>
+              <td style="padding: 12px 16px; font-family: var(--font-mono); color: #64748B;">
+                {b.routingNumber || '—'}
+              </td>
+              <td style="padding: 12px 16px; color: #525252; font-size: 13px;">
+                {b.notes}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const searchInput = document.getElementById('bidSearchInput') as HTMLInputElement | null;
+  const rows = document.querySelectorAll('.bid-row');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const q = (e.target as HTMLInputElement).value.trim().toLowerCase();
+      rows.forEach(r => {
+        const rowEl = r as HTMLElement;
+        const name = rowEl.getAttribute('data-name') || '';
+        const fid = rowEl.getAttribute('data-fid') || '';
+        const routing = rowEl.getAttribute('data-routing') || '';
+
+        if (!q || name.includes(q) || fid.includes(q) || routing.includes(q)) {
+          rowEl.style.display = '';
+        } else {
+          rowEl.style.display = 'none';
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  @media (max-width: 768px) {
+    .mobile-table-hint {
+      display: block !important;
+    }
+  }
+</style>

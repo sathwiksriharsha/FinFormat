@@ -1,0 +1,4 @@
+﻿Date,Name,Type,Gross,Fee,Net,Currency,Reference
+2026-01-07,Sample Customer,Payment,100.00,-3.20,96.80,USD,PP-TEST-001
+2026-01-08,Sample Customer,Refund,-20.00,0.00,-20.00,USD,PP-TEST-002
+2026-01-09,Test Merchant,Transfer,76.80,0.00,76.80,USD,PP-TEST-003

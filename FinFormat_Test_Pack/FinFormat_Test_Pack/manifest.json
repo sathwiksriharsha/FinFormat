@@ -1,0 +1,235 @@
+{
+  "name": "FinFormat Converter Test Pack",
+  "version": "1.0",
+  "synthetic_data_only": true,
+  "canonical_fixture": "fixtures/csv/csv-basic-single-amount.csv",
+  "canonical_expected": "expected/normalized-transactions.csv",
+  "canonical_transaction_count": 5,
+  "canonical_net_usd": 2054.49,
+  "routes_covered": [
+    "csv-to-qbo",
+    "qbo-to-csv",
+    "csv-to-iif",
+    "qbo-to-iif",
+    "ofx-to-iif",
+    "ofx-to-csv",
+    "csv-to-ofx",
+    "qfx-to-csv",
+    "csv-to-qfx",
+    "qfx-to-qbo",
+    "ofx-to-qbo",
+    "csv-to-qif",
+    "qif-to-csv",
+    "qif-to-qbo",
+    "qif-to-iif",
+    "iif-to-csv",
+    "mt940-to-csv",
+    "mt940-to-qbo",
+    "camt053-to-csv",
+    "quickbooks-csv-formatter",
+    "xero-csv-formatter",
+    "fix-quickbooks-ol-222-error",
+    "fix-quickbooks-ol-301-error",
+    "merge-qbo-ofx-files",
+    "credit-card-csv-sign-flipper",
+    "ally-bank-csv-to-qbo",
+    "american-express-csv-to-qbo",
+    "bank-of-america-csv-to-qbo",
+    "bmo-us-csv-to-qbo",
+    "brex-csv-to-qbo",
+    "capital-one-csv-to-qbo",
+    "cash-app-csv-to-quickbooks",
+    "charles-schwab-csv-to-qbo",
+    "chase-csv-to-qbo",
+    "citi-csv-to-qbo",
+    "citizens-bank-csv-to-qbo",
+    "discover-card-csv-to-qbo",
+    "fidelity-csv-to-qbo",
+    "fifth-third-bank-csv-to-qbo",
+    "first-citizens-bank-csv-to-qbo",
+    "huntington-bank-csv-to-qbo",
+    "keybank-csv-to-qbo",
+    "m-and-t-bank-csv-to-qbo",
+    "mercury-bank-csv-to-qbo",
+    "navy-federal-csv-to-qbo",
+    "paypal-csv-to-quickbooks",
+    "pnc-bank-csv-to-qbo",
+    "ramp-csv-to-qbo",
+    "regions-bank-csv-to-qbo",
+    "relay-financial-csv-to-qbo",
+    "shopify-payouts-csv-to-quickbooks",
+    "square-csv-to-quickbooks",
+    "stripe-csv-to-quickbooks",
+    "td-bank-csv-to-qbo",
+    "truist-csv-to-qbo",
+    "us-bank-csv-to-qbo",
+    "usaa-csv-to-qbo",
+    "venmo-csv-to-quickbooks",
+    "wells-fargo-csv-to-qbo",
+    "wise-csv-to-quickbooks"
+  ],
+  "core_routes_covered": 25,
+  "bank_preset_routes_covered": 35,
+  "fixtures": [
+    {
+      "path": "README.md",
+      "size_bytes": 5234,
+      "sha256": "41396bbb3691ec071f6b3461d94eb575d8af6888fcdf3eaebd1757f33355dc4e"
+    },
+    {
+      "path": "docs/BANK_PRESET_TEST_MATRIX.csv",
+      "size_bytes": 13161,
+      "sha256": "42d03c80240773958caf3d63fc03b66c649769bbdea1d033a3599170f0403721"
+    },
+    {
+      "path": "docs/ROUTE_TEST_MATRIX.csv",
+      "size_bytes": 3815,
+      "sha256": "171a9da5fd5c0a6c5a3d8c0d236cbba54174dd133c6e7e8a964365accca5853c"
+    },
+    {
+      "path": "expected/expected-invariants.json",
+      "size_bytes": 1225,
+      "sha256": "a308f8a782bd4c01144aef6e699572d3616710d199ef040816b3f463b541b7df"
+    },
+    {
+      "path": "expected/normalized-transactions.csv",
+      "size_bytes": 546,
+      "sha256": "f76063145cf25bb051df18127dee5178fc63b27fedc4f0b36d4e98709cd1606c"
+    },
+    {
+      "path": "expected/quickbooks-online-3-column.csv",
+      "size_bytes": 222,
+      "sha256": "07aa43ddb314a2ca82e5ae21ce97655353c6cf5176b27b2a3c550ab4084bc847"
+    },
+    {
+      "path": "expected/quickbooks-online-4-column.csv",
+      "size_bytes": 230,
+      "sha256": "ff649e7d44f6ddf95f6ae1311cf116fb985485966ea8929e51e3bd5f9e5d851b"
+    },
+    {
+      "path": "expected/xero-bank-feed-example.csv",
+      "size_bytes": 451,
+      "sha256": "85dd409ef54d439635658ebe3cf5dd6e080351c5f1333cef9f4369fa171030ea"
+    },
+    {
+      "path": "fixtures/camt053/sample-statement-camt053.xml",
+      "size_bytes": 3251,
+      "sha256": "a95b35d202cb4c36c2b7cc563f2e2626349c6017e6330b71f5ab0850c626e127"
+    },
+    {
+      "path": "fixtures/csv/credit-card-positive-charges.csv",
+      "size_bytes": 218,
+      "sha256": "36f424befb9d4cf142f8a0a45f491816508ee306bfa4b24aa73943062da7cc3c"
+    },
+    {
+      "path": "fixtures/csv/csv-ambiguous-dates.csv",
+      "size_bytes": 112,
+      "sha256": "0d66256cf06d3245616ac8ab18bac71ee11d399ce281759d2867719fb0953a9f"
+    },
+    {
+      "path": "fixtures/csv/csv-bank-metadata-rows.csv",
+      "size_bytes": 670,
+      "sha256": "762afe5c44676e6a32ea508c4f09e69f2e6e4f6c747b8fdcec04c7ce582bb0dc"
+    },
+    {
+      "path": "fixtures/csv/csv-basic-single-amount.csv",
+      "size_bytes": 575,
+      "sha256": "612f4f7f56b42a8544cb6b6b127c4b961e9fe8c5f6f09ed179a941e98d2e6040"
+    },
+    {
+      "path": "fixtures/csv/csv-duplicate-rows.csv",
+      "size_bytes": 266,
+      "sha256": "b7e1d69dad12d19a4ed874bac2eea050353d80d826000ba14b9c8d255e83b7f7"
+    },
+    {
+      "path": "fixtures/csv/csv-quoted-commas-and-quotes.csv",
+      "size_bytes": 230,
+      "sha256": "6e25a150acb08a3c03fdaace713335acce1d766930b643fb344ab68d19b3e8a2"
+    },
+    {
+      "path": "fixtures/csv/csv-split-debit-credit.csv",
+      "size_bytes": 445,
+      "sha256": "ac9c4d48736dbe9ce55f1266ce791747a811ecf169b04c48274e570d16094c4f"
+    },
+    {
+      "path": "fixtures/csv/headerless-five-column-synthetic.csv",
+      "size_bytes": 169,
+      "sha256": "32e47bb7dc5de89f0b3500f2241f1ed1a38b506433c1622b6a9a43bcf1f2f104"
+    },
+    {
+      "path": "fixtures/csv/paypal-activity-synthetic.csv",
+      "size_bytes": 261,
+      "sha256": "b5a5780d6f23e42f00dd1714c93b13d02870c5ad15887494cfc7113918f0cd3b"
+    },
+    {
+      "path": "fixtures/csv/shopify-payouts-synthetic.csv",
+      "size_bytes": 189,
+      "sha256": "56015bc5e611f41c93f33c61256a2e0cb6036a0e3163b6ba556639037a7f9c27"
+    },
+    {
+      "path": "fixtures/csv/stripe-payout-gross-fee-net.csv",
+      "size_bytes": 254,
+      "sha256": "d18b85e1223e6bf773f80d641866a12629ed93ef50086d531843c3d945a30844"
+    },
+    {
+      "path": "fixtures/csv/wise-multicurrency-synthetic.csv",
+      "size_bytes": 224,
+      "sha256": "e7f43ab8102a0661424d866038ea56f326d452d9a9186111895c1598613abcd0"
+    },
+    {
+      "path": "fixtures/iif/sample-quickbooks.iif",
+      "size_bytes": 1071,
+      "sha256": "0f4a9c47a32fdda6b98165ff9ae62ebd986c6003431d408fc7d3e87056630645"
+    },
+    {
+      "path": "fixtures/merge/extra-duplicate.csv",
+      "size_bytes": 94,
+      "sha256": "5f658d92588dd4c907298f5ce5555955d5407e81e8adbbdb117e3abe85713dba"
+    },
+    {
+      "path": "fixtures/merge/statement-a.qbo",
+      "size_bytes": 1087,
+      "sha256": "63a8d7213d0ea5935493437d09b7934a7e08d6867e59ecf10b1e00b877d53df7"
+    },
+    {
+      "path": "fixtures/merge/statement-b-with-overlap.qbo",
+      "size_bytes": 1083,
+      "sha256": "d2f8a32de13f751ca7af79f1ebe369d786ae7382007541afd66ed1c704fc6a3a"
+    },
+    {
+      "path": "fixtures/mt940/sample-bank.mt940",
+      "size_bytes": 641,
+      "sha256": "217d65b7ee6c39bf46e6a50a5c9b524da6cbee2fb3b25f18420fe40dfabf066e"
+    },
+    {
+      "path": "fixtures/ofx/sample-bank.ofx",
+      "size_bytes": 1364,
+      "sha256": "c69e68a38cfdb84dcac26d06891a87a6bbe5d2a9d904d3a8fe94e2d5cfb5c0d5"
+    },
+    {
+      "path": "fixtures/qbo/malformed-ol222.qbo",
+      "size_bytes": 839,
+      "sha256": "57417e0503edfe088021af9f132d2dbcfff40a717741e8534bd7cea7247b7271"
+    },
+    {
+      "path": "fixtures/qbo/sample-bank.qbo",
+      "size_bytes": 1378,
+      "sha256": "f8b5a25064caad3bc373022a36a3041dfff00b22d3f180ec42354ecfb3606fc4"
+    },
+    {
+      "path": "fixtures/qbo/unrecognized-bank-id-test-only.qbo",
+      "size_bytes": 783,
+      "sha256": "179ed4af1bb802e711058275ddc744ca299bbd43951a96f1aa13cc42b665625e"
+    },
+    {
+      "path": "fixtures/qfx/sample-quicken.qfx",
+      "size_bytes": 1378,
+      "sha256": "f8b5a25064caad3bc373022a36a3041dfff00b22d3f180ec42354ecfb3606fc4"
+    },
+    {
+      "path": "fixtures/qif/sample-bank.qif",
+      "size_bytes": 412,
+      "sha256": "43a88be5036de509f9e38604e120d1f3db509a3aa61a282699d13dd14c38e071"
+    }
+  ]
+}

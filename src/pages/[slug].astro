@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ConverterWorkspace from '../components/ConverterWorkspace.astro';
+import FormatMatrixGrid from '../components/FormatMatrixGrid.astro';
+import { FORMAT_ROUTES } from '../config/formatRoutes';
+import type { FormatRoute } from '../utils/types';
+
+export function getStaticPaths() {
+  return FORMAT_ROUTES.map(route => ({
+    params: { slug: route.slug },
+    props: { route }
+  }));
+}
+
+interface Props {
+  route: FormatRoute;
+}
+
+const { route } = Astro.props;
+
+// Determine default settings based on route
+const isSignFlipper = route.slug.includes('sign-flipper');
+const isRepair = route.isRepairTool || false;
+---
+
+<BaseLayout
+  title={`${route.title} — FinFormat`}
+  description={route.metaDescription}
+  canonicalPath={`/${route.slug}`}
+  faqs={route.faq}
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 60px;">
+    
+    <!-- Hero Header -->
+    <section style="margin-bottom: 28px;">
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+        <span class="badge-lime">{route.sourceFormat} &rarr; {route.targetFormat}</span>
+        {isRepair && <span class="badge-lilac">REPAIR & DIAGNOSTICS</span>}
+      </div>
+      <h1 class="display-lg display-serif" style="max-width: 900px; margin-bottom: 14px;">
+        {route.h1}
+      </h1>
+      <p class="body-lg" style="max-width: 760px; color: #404040;">
+        {route.summary}
+      </p>
+    </section>
+
+    <!-- Pre-Configured Interactive Workbench -->
+    <ConverterWorkspace 
+      initialSource={route.sourceFormat === 'MULTI' ? 'AUTO' : route.sourceFormat}
+      initialTarget={route.targetFormat}
+      presetSlug={route.slug}
+      isRepairPage={isRepair}
+      defaultFlipSigns={isSignFlipper}
+    />
+
+    <!-- Color Block: Technical Deep Dive & Why Needed -->
+    <section class="color-block-section color-block-lime">
+      <div style="max-width: 860px;">
+        <span class="eyebrow" style="color: #2b542c; margin-bottom: 12px; display: inline-block;">Format Specification & Standards</span>
+        <h2 class="display-lg" style="margin-bottom: 16px;">
+          Why this conversion is required
+        </h2>
+        <p class="body-lg" style="margin-bottom: 28px; color: #173819;">
+          {route.whyNeeded}
+        </p>
+
+        <div style="background-color: rgba(255, 255, 255, 0.7); border-radius: var(--rounded-md); padding: clamp(16px, 3vw, 24px); min-width: 0; box-sizing: border-box;">
+          <h3 class="card-title" style="margin-bottom: 14px; font-size: 18px;">Technical Compliance Guarantees</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+            {route.technicalDetails.map(detail => (
+              <li style="display: flex; gap: 10px; align-items: flex-start; font-size: 15px;">
+                <span style="color: #15803D; font-weight: 700;">✓</span>
+                <span style="overflow-wrap: break-word; min-width: 0;">{detail}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contextual FAQ Accordion -->
+    {route.faq && route.faq.length > 0 && (
+      <section class="color-block-section color-block-cream">
+        <div style="max-width: 860px;">
+          <span class="eyebrow" style="color: #78350F; margin-bottom: 12px; display: inline-block;">Technical Answers</span>
+          <h2 class="display-lg" style="margin-bottom: 24px;">
+            Frequently Asked Questions
+          </h2>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            {route.faq.map(item => (
+              <details style="background-color: rgba(255, 255, 255, 0.7); border-radius: var(--rounded-md); padding: clamp(14px, 3vw, 18px) clamp(16px, 3vw, 24px); cursor: pointer; min-width: 0; box-sizing: border-box;">
+                <summary style="font-size: 17px; font-weight: 600; outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                  <span>{item.question}</span>
+                  <span style="font-size: 18px;">+</span>
+                </summary>
+                <p class="body" style="margin-top: 12px; color: #27272a; line-height: 1.6;">
+                  {item.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Internal Linking Matrix -->
+    <FormatMatrixGrid currentSlug={route.slug} />
+
+  </div>
+</BaseLayout>

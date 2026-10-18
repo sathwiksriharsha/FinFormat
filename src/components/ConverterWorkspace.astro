@@ -1,0 +1,1568 @@
+---
+import { INTU_BID_DIRECTORY } from '../config/intuBidDirectory';
+
+interface Props {
+  initialSource?: string;
+  initialTarget?: string;
+  presetSlug?: string;
+  bankName?: string;
+  initialIntuBid?: string;
+  initialAccountType?: 'CHECKING' | 'SAVINGS' | 'CREDITCARD';
+  isRepairPage?: boolean;
+  defaultFlipSigns?: boolean;
+  defaultSplitFees?: boolean;
+}
+
+const {
+  initialSource = 'CSV',
+  initialTarget = 'QBO',
+  presetSlug = '',
+  bankName = '',
+  initialIntuBid = '3000',
+  initialAccountType = 'CHECKING',
+  isRepairPage = false,
+  defaultFlipSigns = false,
+  defaultSplitFees = false
+} = Astro.props;
+---
+
+<div 
+  id="workbench" 
+  class="bezel-tray" 
+  style="margin-top: 24px; margin-bottom: 48px; scroll-margin-top: 100px;"
+  data-preset-slug={presetSlug}
+  data-bank-name={bankName}
+  data-is-repair={isRepairPage ? 'true' : 'false'}
+  data-initial-target={initialTarget}
+  data-initial-source={initialSource}
+  data-default-flip-signs={defaultFlipSigns ? 'true' : 'false'}
+  data-default-split-fees={defaultSplitFees ? 'true' : 'false'}
+>
+  <div class="bezel-core">
+    
+    <!-- Intro Section: Refined Headline & Privacy Supporting Text -->
+    <div class="workspace-intro" id="workspaceIntro">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 18px;">
+        <div>
+          <h2 class="section-serif-title" style="font-size: clamp(24px, 3.2vw, 32px); font-weight: 600; line-height: 1.2; margin-bottom: 6px;">
+            Convert your statement
+          </h2>
+          <p class="body-sm" style="color: #64748B; max-width: 620px;">
+            100% private in browser memory. Bank files never leave your device.
+          </p>
+        </div>
+
+        <span class="badge-lime" id="privacyBadge" style="font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: var(--rounded-pill); display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(0, 0, 0, 0.06);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          100% BROWSER RAM &middot; ZERO UPLOADS
+        </span>
+      </div>
+
+      <!-- Three-Step Progress Indicator -->
+      <nav class="workspace-stepper" id="workspaceStepper" aria-label="Conversion Progress Steps">
+        <button type="button" class="step-item active" id="stepIndicator1" data-step="1">
+          <span class="step-num">1</span>
+          <span class="step-title">Choose file</span>
+        </button>
+        <div class="step-connector"></div>
+        <button type="button" class="step-item" id="stepIndicator2" data-step="2">
+          <span class="step-num">2</span>
+          <span class="step-title">Review transactions</span>
+        </button>
+        <div class="step-connector"></div>
+        <button type="button" class="step-item" id="stepIndicator3" data-step="3">
+          <span class="step-num">3</span>
+          <span class="step-title">Export file</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Format Controls Bar -->
+    <div class="format-selector-row" style="padding-top: 18px; padding-bottom: 20px; border-top: 1px solid var(--color-hairline); border-bottom: 1px solid var(--color-hairline);">
+      <div class="format-select-controls">
+        <div class="format-select-item">
+          <label for="sourceFormatSelect" class="eyebrow" style="color: #525252; margin-bottom: 2px;">Source Format</label>
+          <select id="sourceFormatSelect" class="form-select" style="font-weight: 600;">
+            <option value="AUTO" selected>Auto-Detect File</option>
+            <option value="CSV">Bank CSV / TSV</option>
+            <option value="QBO">QuickBooks QBO</option>
+            <option value="OFX">Bank OFX (SGML/XML)</option>
+            <option value="QFX">Quicken QFX</option>
+            <option value="IIF">QuickBooks IIF</option>
+            <option value="QIF">Quicken QIF</option>
+            <option value="MT940">SWIFT MT940 (.sta)</option>
+            <option value="CAMT.053">ISO 20022 CAMT.053 XML</option>
+          </select>
+        </div>
+
+        <span class="format-arrow">&rarr;</span>
+
+        <div class="format-select-item">
+          <label for="targetFormatSelect" class="eyebrow" style="color: #525252; margin-bottom: 2px;">Target Output</label>
+          <select id="targetFormatSelect" class="form-select" style="font-weight: 600; background-color: #FAFAFA;">
+            <option value="QBO" selected={initialTarget === 'QBO'}>QuickBooks Web Connect (.QBO)</option>
+            <option value="IIF" selected={initialTarget === 'IIF'}>QuickBooks Desktop IIF (Balanced)</option>
+            <option value="CSV" selected={initialTarget === 'CSV'}>Standard Excel CSV (.CSV)</option>
+            <option value="QB_CSV" selected={initialTarget === 'QB_CSV'}>QuickBooks 3-Column CSV</option>
+            <option value="XERO_CSV" selected={initialTarget === 'XERO_CSV'}>Xero Bank Feed CSV</option>
+            <option value="OFX" selected={initialTarget === 'OFX'}>Standard Open Financial (.OFX)</option>
+            <option value="QFX" selected={initialTarget === 'QFX'}>Quicken Web Connect (.QFX)</option>
+            <option value="QIF" selected={initialTarget === 'QIF'}>Quicken Interchange (.QIF)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Trust Summary (Desktop view) -->
+      <div class="desktop-trust-note" style="display: flex; align-items: center; gap: 8px; color: #64748B; font-size: 13px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span>Instant client-side processing</span>
+      </div>
+    </div>
+
+    <!-- Step 1: File Dropzone Area -->
+    <div 
+      id="dropZone" 
+      style="margin-top: 20px; border: 2px dashed #CBD5E1; border-radius: var(--rounded-md); padding: clamp(28px, 4.5vw, 48px) 20px; text-align: center; background-color: #FAFBFD; cursor: pointer; transition: all 180ms ease;"
+      role="button"
+      tabindex="0"
+      aria-label="Upload statement file dropzone"
+    >
+      <input 
+        type="file" 
+        id="fileInput" 
+        multiple 
+        accept=".csv,.tsv,.qbo,.ofx,.qfx,.iif,.qif,.mt940,.sta,.xml,.txt" 
+        style="display: none;" 
+      />
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; pointer-events: none;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background-color: #FFFFFF; border: 1px solid var(--color-hairline); display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+
+        <div>
+          <p style="font-size: 17px; font-weight: 600; color: #0F172A; margin-bottom: 4px;">
+            Drop your statement here, or <span style="text-decoration: underline; color: #0284C7; pointer-events: auto; cursor: pointer;">browse files</span>
+          </p>
+          <p class="caption" style="color: #64748B; line-height: 1.45; max-width: 500px; margin: 0 auto;">
+            CSV, QBO, OFX, QFX, IIF, QIF, MT940, and CAMT.053 XML. Multi-file batch upload supported.
+          </p>
+        </div>
+
+        <div style="margin-top: 6px; pointer-events: auto;">
+          <button type="button" id="loadSampleBtn" class="button-secondary" style="font-size: 13px; font-weight: 600; padding: 8px 18px; background-color: #FFFFFF; min-height: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+            ⚡ Try With Sample Statement
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loaded Files Pill Container (Batch mode) -->
+    <div id="loadedFilesList" style="display: none; margin-top: 14px; gap: 8px; flex-wrap: wrap; align-items: center;">
+      <span class="eyebrow" style="color: #64748B;">Loaded Files:</span>
+      <div id="loadedFilesPills" style="display: inline-flex; gap: 8px; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- Conversion Options Bar -->
+    <div id="optionsBar" class="options-bar">
+      <div class="options-checkbox-group">
+        <!-- Credit Card Sign Flipper -->
+        <label>
+          <input type="checkbox" id="flipSignsToggle" checked={defaultFlipSigns} style="width: 17px; height: 17px;" />
+          <span>⇄ Flip Signs (Credit Cards)</span>
+        </label>
+
+        <!-- OL-222 Safe Mode -->
+        <label>
+          <input type="checkbox" id="ol222Toggle" checked style="width: 17px; height: 17px;" />
+          <span>🛡️ OL-222 Safe Mode (32-Char Cap)</span>
+        </label>
+
+        <!-- Fee Splitter -->
+        <label>
+          <input type="checkbox" id="splitFeesToggle" checked={defaultSplitFees} style="width: 17px; height: 17px;" />
+          <span>✂️ Split Fees (Stripe/PayPal)</span>
+        </label>
+
+        <!-- Deduplication -->
+        <label>
+          <input type="checkbox" id="dedupToggle" checked style="width: 17px; height: 17px;" />
+          <span>🧹 Deduplicate Repeating Rows</span>
+        </label>
+      </div>
+
+      <!-- Account Settings Toggle -->
+      <button type="button" id="toggleSettingsBtn" style="background: none; border: none; font-size: 13px; font-weight: 600; color: #2563EB; cursor: pointer; text-decoration: underline; min-height: 40px; display: inline-flex; align-items: center;">
+        ⚙️ Account Settings
+      </button>
+    </div>
+
+    <!-- Account Settings Config Panel -->
+    <div id="accountSettingsPanel" class="account-settings-panel" style="display: none;">
+      <div>
+        <label for="accountTypeSelect" class="eyebrow" style="display: block; margin-bottom: 6px; color: #525252;">Account Type</label>
+        <select id="accountTypeSelect" class="form-select" style="width: 100%;">
+          <option value="CHECKING" selected={initialAccountType === 'CHECKING'}>Checking Account</option>
+          <option value="SAVINGS" selected={initialAccountType === 'SAVINGS'}>Savings Account</option>
+          <option value="CREDITCARD" selected={initialAccountType === 'CREDITCARD'}>Credit Card</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="intuBidInput" class="eyebrow" style="display: block; margin-bottom: 6px; color: #525252;">Intuit Bank ID (INTU.BID)</label>
+        <select id="intuBidInput" class="form-select" style="width: 100%;">
+          {INTU_BID_DIRECTORY.map(b => (
+            <option value={b.fid} selected={b.fid === initialIntuBid}>
+              {b.fid} — {b.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label for="accountNumInput" class="eyebrow" style="display: block; margin-bottom: 6px; color: #525252;">Account # (Last 4 Digits)</label>
+        <input type="text" id="accountNumInput" class="form-input" style="width: 100%;" value="4492" maxlength="12" />
+      </div>
+
+      <div>
+        <label for="offsetAccountInput" class="eyebrow" style="display: block; margin-bottom: 6px; color: #525252;">IIF Offset / Category Account</label>
+        <input type="text" id="offsetAccountInput" class="form-input" style="width: 100%;" value="Ask My Accountant" />
+      </div>
+    </div>
+
+    <!-- Conversion Progress Indicator (Image 2 Archetype) -->
+    <div id="conversionProgressContainer" class="progress-conversion-wrap" style="display: none;">
+      <div class="progress-spinner-arc" id="progressSpinner" aria-hidden="true"></div>
+      <div id="progressText" class="progress-status-text">Validating records...</div>
+      <div class="progress-bar-hull">
+        <div id="progressPill" class="progress-bar-pill">
+          <span id="progressPercent">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: "Check your transactions" Card (Image 1 Archetype) -->
+    <div id="checkTransactionsCard" class="check-tx-card" style="display: none;">
+      <div class="check-tx-header">
+        <h3 style="font-size: 21px; font-weight: 700; color: #0F172A; margin-bottom: 3px;">
+          Check your transactions
+        </h3>
+        <div style="font-size: 13px; font-weight: 600; color: #64748B; margin-bottom: 10px;">
+          Step 2 of 3
+        </div>
+        <p class="body-sm" style="color: #475569; max-width: 580px; margin: 0 auto 14px auto;">
+          We've read your statement file. Check if the data format looks right before converting.
+        </p>
+        <div id="checkTransactionsNotice" class="check-tx-notice">
+          Preview: Transactions read successfully. Verify columns below.
+        </div>
+      </div>
+
+      <div class="check-tx-grid">
+        <div class="check-tx-field">
+          <label for="colMapDate" class="eyebrow" style="color: #475569; margin-bottom: 4px;">Date</label>
+          <select id="colMapDate" class="form-select"></select>
+        </div>
+
+        <div class="check-tx-field">
+          <label for="colMapDateFormat" class="eyebrow" style="color: #475569; margin-bottom: 4px;">Date format</label>
+          <select id="colMapDateFormat" class="form-select">
+            <option value="AUTO" selected>Auto-detect (MM/dd/yyyy or yyyy-mm-dd)</option>
+            <option value="MM/dd/yyyy">MM/dd/yyyy (US)</option>
+            <option value="dd/MM/yyyy">dd/MM/yyyy (UK/EU/Intl)</option>
+            <option value="yyyy-MM-dd">yyyy-MM-dd (ISO)</option>
+          </select>
+        </div>
+
+        <div class="check-tx-field">
+          <label for="colMapDesc" class="eyebrow" style="color: #475569; margin-bottom: 4px;">Description</label>
+          <select id="colMapDesc" class="form-select"></select>
+        </div>
+
+        <div class="check-tx-field">
+          <label for="colMapCheckNum" class="eyebrow" style="color: #475569; margin-bottom: 4px;">Check # (optional)</label>
+          <select id="colMapCheckNum" class="form-select"></select>
+        </div>
+
+        <div class="check-tx-field" style="grid-column: 1 / -1;">
+          <label for="colMapAmountType" class="eyebrow" style="color: #475569; margin-bottom: 4px;">How amounts are recorded</label>
+          <select id="colMapAmountType" class="form-select">
+            <option value="single" selected>Single Amount column (+/-)</option>
+            <option value="separate">Separate Debit and Credit columns</option>
+          </select>
+        </div>
+
+        <div class="check-tx-field" id="debitFieldContainer">
+          <label for="colMapDebit" class="eyebrow" style="color: #475569; margin-bottom: 4px;">Debit (money out)</label>
+          <select id="colMapDebit" class="form-select"></select>
+        </div>
+
+        <div class="check-tx-field" id="creditFieldContainer">
+          <label for="colMapCredit" class="eyebrow" style="color: #475569; margin-bottom: 4px;">Credit (money in)</label>
+          <select id="colMapCredit" class="form-select"></select>
+        </div>
+      </div>
+
+      <div class="check-tx-actions">
+        <button type="button" id="btnBackToStep1" class="button-secondary" style="font-size: 14px; padding: 10px 20px;">
+          &larr; Back
+        </button>
+        <button type="button" id="btnConfirmConvert" class="button-convert-teal" style="font-size: 14px; padding: 10px 26px;">
+          Convert &rarr;
+        </button>
+      </div>
+    </div>
+
+    <!-- Diagnostics & Summary Metrics Bar -->
+    <div id="metricsBar" class="metrics-bar" style="display: none;">
+      <div class="metrics-grid">
+        <div>
+          <span class="caption" style="color: #737373; display: block;">TRANSACTIONS</span>
+          <span id="metricTotalRows" style="font-size: 20px; font-weight: 700;">0</span>
+        </div>
+        <div>
+          <span class="caption" style="color: #737373; display: block;">TOTAL CREDITS</span>
+          <span id="metricCredits" style="font-size: 20px; font-weight: 700; color: #16A34A;">+$0.00</span>
+        </div>
+        <div>
+          <span class="caption" style="color: #737373; display: block;">TOTAL DEBITS</span>
+          <span id="metricDebits" style="font-size: 20px; font-weight: 700; color: #DC2626;">-$0.00</span>
+        </div>
+        <div>
+          <span class="caption" style="color: #737373; display: block;">NET FLOW</span>
+          <span id="metricNet" style="font-size: 20px; font-weight: 700;">$0.00</span>
+        </div>
+      </div>
+
+      <!-- Live Repair / Sanitizer Badges -->
+      <div id="repairBadgesContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- Interactive Editable Transaction Table Preview -->
+    <div id="tableContainer" class="table-container" style="display: none;">
+      <div style="padding: 12px 18px; background-color: #F8FAFC; border-bottom: 1px solid var(--color-hairline); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+        <span class="eyebrow" style="color: #334155;">Live Transaction Register (Editable)</span>
+        <span class="caption" style="color: #64748B;">Tap any cell to edit payee or memo before export</span>
+      </div>
+
+      <div class="mobile-table-hint">
+        ↔ Swipe table horizontally to view all fields &amp; checkboxes
+      </div>
+
+      <div class="table-scroll-wrapper" style="max-height: 400px; overflow-y: auto; overflow-x: auto; width: 100%; min-width: 0; max-width: 100%; -webkit-overflow-scrolling: touch;">
+        <table style="width: 100%; min-width: 640px; border-collapse: collapse; text-align: left; font-size: 13px;">
+          <thead style="position: sticky; top: 0; background-color: #F1F5F9; border-bottom: 1px solid #CBD5E1; z-index: 1;">
+            <tr>
+              <th style="padding: 10px 14px; width: 44px;"><input type="checkbox" id="selectAllRows" checked style="width: 18px; height: 18px; cursor: pointer;" aria-label="Select all rows" /></th>
+              <th style="padding: 10px 14px; width: 95px;">Date</th>
+              <th style="padding: 10px 14px;">Payee / Description</th>
+              <th style="padding: 10px 14px; text-align: right; width: 105px;">Amount</th>
+              <th style="padding: 10px 14px;">Memo</th>
+              <th style="padding: 10px 14px; width: 85px;">Check #</th>
+              <th style="padding: 10px 14px; width: 110px;">FITID</th>
+            </tr>
+          </thead>
+          <tbody id="transactionTableBody">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Raw Code Inspector Drawer -->
+    <div id="rawPreviewDrawer" style="display: none; margin-top: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+        <span class="eyebrow" style="color: #525252;">Raw Output Preview (.QBO / .IIF / .CSV Code)</span>
+        <button type="button" id="copyRawBtn" class="button-secondary" style="font-size: 12px; padding: 4px 12px; min-height: 36px;">
+          Copy Code
+        </button>
+      </div>
+      <pre id="rawPreviewContent" style="background-color: #0F172A; color: #E2E8F0; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; padding: 14px; border-radius: var(--rounded-md); max-height: 220px; overflow-x: auto; -webkit-overflow-scrolling: touch; word-break: break-all; white-space: pre-wrap; width: 100%; box-sizing: border-box;"></pre>
+    </div>
+
+    <!-- Step 3: Bottom Actions: Primary Download & TSV Copy -->
+    <div id="downloadActionRow" class="download-action-row" style="display: none;">
+      <div class="download-buttons-group">
+        <button type="button" id="downloadPrimaryBtn" class="button-primary">
+          📥 Download Converted File
+        </button>
+        <button type="button" id="copyTsvBtn" class="button-secondary">
+          📋 Copy Table (TSV for Excel)
+        </button>
+      </div>
+
+      <button type="button" id="toggleRawDrawerBtn" style="background: none; border: none; font-size: 13px; font-weight: 500; color: #64748B; cursor: pointer; text-decoration: underline; padding: 8px;">
+        Inspect Raw SGML / IIF Output
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* Stepper Navigation */
+  .workspace-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .step-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--rounded-pill);
+    border: 1px solid #E2E8F0;
+    background-color: #F8FAFC;
+    color: #64748B;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 160ms ease;
+  }
+
+  .step-item:hover {
+    border-color: #CBD5E1;
+    color: #0F172A;
+  }
+
+  .step-item.active {
+    background-color: #0F172A;
+    color: #FFFFFF;
+    border-color: #0F172A;
+  }
+
+  .step-item.completed {
+    border-color: #A7F3D0;
+    background-color: #ECFDF5;
+    color: #065F46;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.08);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .step-item.active .step-num {
+    background-color: #FFFFFF;
+    color: #0F172A;
+  }
+
+  .step-item.completed .step-num {
+    background-color: #10B981;
+    color: #FFFFFF;
+  }
+
+  .step-connector {
+    flex: 1;
+    min-width: 16px;
+    height: 1px;
+    background-color: #E2E8F0;
+  }
+
+  /* Format Selector */
+  .format-selector-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .format-select-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    flex: 1 1 500px;
+    min-width: 0;
+  }
+
+  .format-select-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+
+  .format-select-item select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .format-arrow {
+    font-size: 20px;
+    color: #737373;
+    flex-shrink: 0;
+    align-self: flex-end;
+    margin-bottom: 8px;
+  }
+
+  /* Options Bar */
+  .options-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 14px 18px;
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: var(--rounded-md);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .options-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .options-checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    min-height: 36px;
+    user-select: none;
+  }
+
+  /* Account Settings Panel */
+  .account-settings-panel {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+    padding: 18px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-md);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Image 2 Style: Conversion Progress Bar */
+  .progress-conversion-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 20px;
+    background-color: #E8F9EE;
+    border: 1px solid #C2F0D4;
+    border-radius: var(--rounded-md);
+    margin-top: 20px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .progress-spinner-arc {
+    width: 22px;
+    height: 22px;
+    border: 2.5px solid rgba(16, 185, 129, 0.25);
+    border-top-color: #059669;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+    margin-bottom: 12px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .progress-status-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #065F46;
+    margin-bottom: 14px;
+    letter-spacing: -0.2px;
+  }
+
+  .progress-bar-hull {
+    width: min(320px, 92%);
+    background-color: #10B981;
+    border-radius: 12px;
+    padding: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    box-sizing: border-box;
+  }
+
+  .progress-bar-pill {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 140ms ease;
+  }
+
+  /* Image 1 Style: Check Your Transactions Card */
+  .check-tx-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: var(--rounded-md);
+    padding: clamp(20px, 3.5vw, 32px);
+    margin-top: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .check-tx-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .check-tx-notice {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #059669;
+    background-color: #F0FDF4;
+    border: 1px solid #DCFCE7;
+    padding: 8px 16px;
+    border-radius: var(--rounded-pill);
+    display: inline-block;
+  }
+
+  .check-tx-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .check-tx-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .check-tx-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .button-convert-teal {
+    background-color: #10B981;
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 160ms ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .button-convert-teal:hover {
+    background-color: #059669;
+  }
+
+  /* Metrics Bar */
+  .metrics-bar {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-md);
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .metrics-grid {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Table Container */
+  .table-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-top: 20px;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-md);
+  }
+
+  .mobile-table-hint {
+    display: none;
+    padding: 8px 12px;
+    background-color: #F1F5F9;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 11px;
+    color: #475569;
+    text-align: center;
+    font-family: var(--font-mono);
+  }
+
+  /* Download Action Row */
+  .download-action-row {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-hairline);
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .download-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Responsive Mobile Breakpoint (< 768px) */
+  @media (max-width: 768px) {
+    .workspace-intro > div:first-child {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 10px !important;
+    }
+
+    #privacyBadge {
+      font-size: 11px !important;
+      padding: 5px 11px !important;
+    }
+
+    .workspace-stepper {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 6px !important;
+      width: 100% !important;
+    }
+
+    .step-connector {
+      display: none !important;
+    }
+
+    .step-item {
+      padding: 7px 4px !important;
+      font-size: 11px !important;
+      justify-content: center !important;
+      text-align: center !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      gap: 5px !important;
+    }
+
+    .step-num {
+      width: 18px !important;
+      height: 18px !important;
+      font-size: 10px !important;
+      flex-shrink: 0 !important;
+    }
+
+    .step-title {
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+
+    .format-selector-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+
+    .format-select-controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      width: 100%;
+      flex: 0 0 auto !important;
+    }
+
+    .format-arrow {
+      align-self: center;
+      transform: rotate(90deg);
+      margin: -2px 0 2px 0;
+    }
+
+    .format-select-item {
+      width: 100%;
+      flex: 0 0 auto !important;
+    }
+
+    .desktop-trust-note {
+      display: none !important;
+    }
+
+    .options-bar {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 12px 14px;
+    }
+
+    .options-checkbox-group {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .options-checkbox-group label {
+      min-height: 44px;
+      padding: 4px 0;
+    }
+
+    .account-settings-panel {
+      grid-template-columns: 1fr !important;
+      padding: 14px;
+    }
+
+    .check-tx-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .check-tx-actions {
+      flex-direction: column-reverse;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .check-tx-actions button {
+      width: 100%;
+      min-height: 44px;
+    }
+
+    .metrics-bar {
+      padding: 14px;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .metrics-grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .mobile-table-hint {
+      display: block !important;
+    }
+
+    .download-action-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .download-buttons-group {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      gap: 10px;
+    }
+
+    .download-buttons-group button {
+      width: 100% !important;
+      min-height: 48px;
+      white-space: normal !important;
+      text-align: center;
+      padding: 12px 16px !important;
+      font-size: 14px !important;
+    }
+
+    #toggleRawDrawerBtn {
+      width: 100%;
+      min-height: 44px;
+      text-align: center;
+      padding: 10px 0;
+    }
+  }
+
+  [contenteditable="true"] {
+    transition: background-color 150ms ease;
+    border-radius: 3px;
+    padding: 2px 4px;
+  }
+
+  [contenteditable="true"]:focus {
+    outline: 2px solid #2563EB !important;
+    background-color: #EFF6FF !important;
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .progress-spinner-arc {
+      animation: none !important;
+    }
+    .step-item,
+    .progress-bar-pill {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  import type { NormalizedTransaction, AccountMetadata } from '../utils/types';
+  import { parseCSV, parseCSVToRows, exportToCSV, exportToQuickBooks3Col, exportToXeroCSV, exportToTSV } from '../utils/csvEngine';
+  import { generateQBO } from '../utils/qboGenerator';
+  import { parseOFX } from '../utils/ofxParser';
+  import { generateIIF, parseIIF } from '../utils/iifEngine';
+  import { generateQIF, parseQIF } from '../utils/qifEngine';
+  import { parseMT940, parseCAMT053 } from '../utils/mt940CamtEngine';
+  import { getContextAwareSample } from '../utils/sampleData';
+
+  // Read config from DOM data attributes
+  const workbench = document.getElementById('workbench') as HTMLElement | null;
+  const presetSlug = workbench?.dataset.presetSlug || '';
+
+  // Workflow State: 1 = Choose file, 2 = Review transactions, 3 = Export file
+  let currentWorkflowStep: 1 | 2 | 3 = 1;
+
+  // Client-Side Conversion Workspace Engine State
+  let loadedTransactions: NormalizedTransaction[] = [];
+  let loadedFiles: Array<{ name: string; text: () => Promise<string> }> = [];
+  let sanitizedCount = 0;
+  let parsedRawHeaders: string[] = [];
+
+  // DOM Elements with explicit typing
+  const dropZone = document.getElementById('dropZone') as HTMLElement | null;
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement | null;
+  const loadSampleBtn = document.getElementById('loadSampleBtn') as HTMLButtonElement | null;
+  const loadedFilesList = document.getElementById('loadedFilesList') as HTMLElement | null;
+  const loadedFilesPills = document.getElementById('loadedFilesPills') as HTMLElement | null;
+  const sourceFormatSelect = document.getElementById('sourceFormatSelect') as HTMLSelectElement | null;
+  const targetFormatSelect = document.getElementById('targetFormatSelect') as HTMLSelectElement | null;
+  const flipSignsToggle = document.getElementById('flipSignsToggle') as HTMLInputElement | null;
+  const ol222Toggle = document.getElementById('ol222Toggle') as HTMLInputElement | null;
+  const splitFeesToggle = document.getElementById('splitFeesToggle') as HTMLInputElement | null;
+  const dedupToggle = document.getElementById('dedupToggle') as HTMLInputElement | null;
+  const toggleSettingsBtn = document.getElementById('toggleSettingsBtn') as HTMLButtonElement | null;
+  const accountSettingsPanel = document.getElementById('accountSettingsPanel') as HTMLElement | null;
+  const accountTypeSelect = document.getElementById('accountTypeSelect') as HTMLSelectElement | null;
+  const intuBidInput = document.getElementById('intuBidInput') as HTMLSelectElement | null;
+  const accountNumInput = document.getElementById('accountNumInput') as HTMLInputElement | null;
+  const offsetAccountInput = document.getElementById('offsetAccountInput') as HTMLInputElement | null;
+  
+  // Progress Bar Elements (Image 2)
+  const conversionProgressContainer = document.getElementById('conversionProgressContainer') as HTMLElement | null;
+  const progressText = document.getElementById('progressText') as HTMLElement | null;
+  const progressPercent = document.getElementById('progressPercent') as HTMLElement | null;
+  const progressPill = document.getElementById('progressPill') as HTMLElement | null;
+
+  // Stepper Elements
+  const stepIndicator1 = document.getElementById('stepIndicator1') as HTMLButtonElement | null;
+  const stepIndicator2 = document.getElementById('stepIndicator2') as HTMLButtonElement | null;
+  const stepIndicator3 = document.getElementById('stepIndicator3') as HTMLButtonElement | null;
+
+  // "Check Your Transactions" Elements (Image 1)
+  const checkTransactionsCard = document.getElementById('checkTransactionsCard') as HTMLElement | null;
+  const checkTransactionsNotice = document.getElementById('checkTransactionsNotice') as HTMLElement | null;
+  const colMapDate = document.getElementById('colMapDate') as HTMLSelectElement | null;
+  const colMapDateFormat = document.getElementById('colMapDateFormat') as HTMLSelectElement | null;
+  const colMapDesc = document.getElementById('colMapDesc') as HTMLSelectElement | null;
+  const colMapCheckNum = document.getElementById('colMapCheckNum') as HTMLSelectElement | null;
+  const colMapAmountType = document.getElementById('colMapAmountType') as HTMLSelectElement | null;
+  const colMapDebit = document.getElementById('colMapDebit') as HTMLSelectElement | null;
+  const colMapCredit = document.getElementById('colMapCredit') as HTMLSelectElement | null;
+  const btnBackToStep1 = document.getElementById('btnBackToStep1') as HTMLButtonElement | null;
+  const btnConfirmConvert = document.getElementById('btnConfirmConvert') as HTMLButtonElement | null;
+  const debitFieldContainer = document.getElementById('debitFieldContainer') as HTMLElement | null;
+  const creditFieldContainer = document.getElementById('creditFieldContainer') as HTMLElement | null;
+
+  // Register & Export Elements
+  const metricsBar = document.getElementById('metricsBar') as HTMLElement | null;
+  const metricTotalRows = document.getElementById('metricTotalRows') as HTMLElement | null;
+  const metricCredits = document.getElementById('metricCredits') as HTMLElement | null;
+  const metricDebits = document.getElementById('metricDebits') as HTMLElement | null;
+  const metricNet = document.getElementById('metricNet') as HTMLElement | null;
+  const repairBadgesContainer = document.getElementById('repairBadgesContainer') as HTMLElement | null;
+  const tableContainer = document.getElementById('tableContainer') as HTMLElement | null;
+  const transactionTableBody = document.getElementById('transactionTableBody') as HTMLTableSectionElement | null;
+  const selectAllRows = document.getElementById('selectAllRows') as HTMLInputElement | null;
+  const rawPreviewDrawer = document.getElementById('rawPreviewDrawer') as HTMLElement | null;
+  const rawPreviewContent = document.getElementById('rawPreviewContent') as HTMLPreElement | null;
+  const toggleRawDrawerBtn = document.getElementById('toggleRawDrawerBtn') as HTMLButtonElement | null;
+  const copyRawBtn = document.getElementById('copyRawBtn') as HTMLButtonElement | null;
+  const downloadActionRow = document.getElementById('downloadActionRow') as HTMLElement | null;
+  const downloadPrimaryBtn = document.getElementById('downloadPrimaryBtn') as HTMLButtonElement | null;
+  const copyTsvBtn = document.getElementById('copyTsvBtn') as HTMLButtonElement | null;
+
+  // Workflow State Manager
+  function setWorkflowStep(step: 1 | 2 | 3) {
+    currentWorkflowStep = step;
+
+    [stepIndicator1, stepIndicator2, stepIndicator3].forEach((indicator, idx) => {
+      if (!indicator) return;
+      const indicatorStep = (idx + 1) as 1 | 2 | 3;
+      indicator.classList.remove('active', 'completed');
+      if (indicatorStep === currentWorkflowStep) {
+        indicator.classList.add('active');
+      } else if (indicatorStep < currentWorkflowStep) {
+        indicator.classList.add('completed');
+      }
+    });
+
+    if (step === 1) {
+      if (checkTransactionsCard) checkTransactionsCard.style.display = 'none';
+      if (dropZone) dropZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else if (step === 2) {
+      if (checkTransactionsCard && loadedTransactions.length > 0) {
+        checkTransactionsCard.style.display = 'block';
+        checkTransactionsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    } else if (step === 3) {
+      if (downloadActionRow && loadedTransactions.length > 0) {
+        downloadActionRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }
+
+  // Stepper Click Listeners
+  if (stepIndicator1) stepIndicator1.addEventListener('click', () => setWorkflowStep(1));
+  if (stepIndicator2) stepIndicator2.addEventListener('click', () => {
+    if (loadedTransactions.length > 0) setWorkflowStep(2);
+  });
+  if (stepIndicator3) stepIndicator3.addEventListener('click', () => {
+    if (loadedTransactions.length > 0) setWorkflowStep(3);
+  });
+
+  // Toggle Settings
+  if (toggleSettingsBtn && accountSettingsPanel) {
+    toggleSettingsBtn.addEventListener('click', () => {
+      accountSettingsPanel.style.display = accountSettingsPanel.style.display === 'none' ? 'grid' : 'none';
+    });
+  }
+
+  // Toggle Raw Drawer
+  if (toggleRawDrawerBtn && rawPreviewDrawer) {
+    toggleRawDrawerBtn.addEventListener('click', () => {
+      rawPreviewDrawer.style.display = rawPreviewDrawer.style.display === 'none' ? 'block' : 'none';
+      if (rawPreviewDrawer.style.display === 'block') {
+        updateRawPreview();
+      }
+    });
+  }
+
+  // DropZone Drag & Drop
+  if (dropZone && fileInput) {
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
+
+    dropZone.addEventListener('dragover', (e: DragEvent) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '#0F172A';
+      dropZone.style.backgroundColor = '#F1F5F9';
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.style.borderColor = '#CBD5E1';
+      dropZone.style.backgroundColor = '#FAFBFD';
+    });
+    dropZone.addEventListener('drop', (e: DragEvent) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '#CBD5E1';
+      dropZone.style.backgroundColor = '#FAFBFD';
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleFiles(Array.from(e.dataTransfer.files));
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleFiles(Array.from(fileInput.files));
+      }
+    });
+  }
+
+  // Re-run conversion if options change
+  const toggleElements: (HTMLElement | null)[] = [
+    sourceFormatSelect, flipSignsToggle, ol222Toggle, splitFeesToggle, dedupToggle,
+    targetFormatSelect, accountTypeSelect, intuBidInput, accountNumInput, offsetAccountInput
+  ];
+
+  toggleElements.forEach(el => {
+    if (el) {
+      el.addEventListener('change', () => {
+        if (loadedFiles.length > 0) {
+          processAllFiles();
+        }
+      });
+    }
+  });
+
+  // Load Context-Aware Sample Statement
+  if (loadSampleBtn) {
+    loadSampleBtn.addEventListener('click', async (e: MouseEvent) => {
+      e.stopPropagation();
+      const sample = getContextAwareSample(presetSlug);
+      handleFiles([{ name: sample.name, text: async () => sample.content }]);
+    });
+  }
+
+  // Back and Convert button handlers for Image 1 Card
+  if (btnBackToStep1) {
+    btnBackToStep1.addEventListener('click', () => {
+      setWorkflowStep(1);
+    });
+  }
+
+  if (btnConfirmConvert) {
+    btnConfirmConvert.addEventListener('click', () => {
+      setWorkflowStep(3);
+    });
+  }
+
+  // Amount column type toggler
+  if (colMapAmountType) {
+    colMapAmountType.addEventListener('change', () => {
+      const isSeparate = colMapAmountType.value === 'separate';
+      if (debitFieldContainer) debitFieldContainer.style.display = isSeparate ? 'flex' : 'none';
+      if (creditFieldContainer) creditFieldContainer.style.display = isSeparate ? 'flex' : 'none';
+    });
+  }
+
+  if (colMapDateFormat) {
+    colMapDateFormat.addEventListener('change', () => {
+      if (loadedFiles.length > 0) processAllFiles();
+    });
+  }
+
+  // Animated Conversion Progress Indicator (Image 2)
+  function runConversionProgress(onComplete: () => void) {
+    if (!conversionProgressContainer) {
+      onComplete();
+      return;
+    }
+
+    conversionProgressContainer.style.display = 'flex';
+    if (dropZone) dropZone.style.opacity = '0.6';
+
+    const stages = [
+      { pct: 18, text: 'Reading statement file...' },
+      { pct: 46, text: 'Parsing statement columns...' },
+      { pct: 72, text: 'Validating records & signs...' },
+      { pct: 93, text: 'Validating records...' },
+      { pct: 100, text: 'Transactions ready!' }
+    ];
+
+    let stepIdx = 0;
+    function nextStage() {
+      if (stepIdx < stages.length) {
+        const stage = stages[stepIdx];
+        if (progressText) progressText.textContent = stage.text;
+        if (progressPercent) progressPercent.textContent = `${stage.pct}%`;
+        if (progressPill) progressPill.setAttribute('data-pct', stage.pct.toString());
+        stepIdx++;
+        setTimeout(nextStage, 80);
+      } else {
+        setTimeout(() => {
+          if (conversionProgressContainer) conversionProgressContainer.style.display = 'none';
+          if (dropZone) dropZone.style.opacity = '1';
+          onComplete();
+        }, 120);
+      }
+    }
+    nextStage();
+  }
+
+  async function handleFiles(files: Array<{ name: string; text: () => Promise<string> }>) {
+    loadedFiles = files;
+    updateFilePills();
+    
+    // Trigger animated conversion progress bar (Image 2 Archetype)
+    runConversionProgress(async () => {
+      await processAllFiles();
+      setWorkflowStep(2);
+    });
+  }
+
+  function updateFilePills() {
+    if (!loadedFilesList || !loadedFilesPills) return;
+    loadedFilesList.style.display = 'flex';
+    loadedFilesPills.innerHTML = '';
+    loadedFiles.forEach(f => {
+      const pill = document.createElement('span');
+      pill.className = 'badge-navy';
+      pill.style.fontSize = '12px';
+      pill.textContent = f.name;
+      loadedFilesPills.appendChild(pill);
+    });
+  }
+
+  async function processAllFiles() {
+    sanitizedCount = 0;
+    let allTx: NormalizedTransaction[] = [];
+
+    const flipSigns = flipSignsToggle?.checked || false;
+    const splitFees = splitFeesToggle?.checked || false;
+    const dedup = dedupToggle?.checked || false;
+    const acctType = (accountTypeSelect?.value || 'CHECKING') as AccountMetadata['accountType'];
+    const bankId = intuBidInput?.value || '3000';
+
+    for (const f of loadedFiles) {
+      const content = await f.text();
+      const fname = f.name.toLowerCase();
+
+      let result;
+      if (fname.endsWith('.qbo') || fname.endsWith('.ofx') || fname.endsWith('.qfx') || content.includes('<OFX>')) {
+        result = parseOFX(content);
+        if (content.includes('&') || content.length > 0) {
+          const matchAmp = (content.match(/<NAME>[^<]*&[^<]*/g) || []).length;
+          sanitizedCount += matchAmp;
+        }
+      } else if (fname.endsWith('.iif') || content.includes('!TRNS')) {
+        result = parseIIF(content);
+      } else if (fname.endsWith('.qif') || content.includes('!Type:')) {
+        result = parseQIF(content);
+      } else if (fname.endsWith('.mt940') || fname.endsWith('.sta') || content.includes(':61:')) {
+        result = parseMT940(content);
+      } else if (fname.endsWith('.xml') && content.includes('<Ntry>')) {
+        result = parseCAMT053(content);
+      } else {
+        // Parse CSV & inspect raw rows for column mapping
+        const rawRows = parseCSVToRows(content);
+        if (rawRows.length > 0) {
+          parsedRawHeaders = rawRows[0];
+          populateColumnMappingOptions(parsedRawHeaders);
+        }
+
+        result = parseCSV(content, {
+          flipSigns,
+          splitFees,
+          deduplicate: dedup,
+          defaultAccountType: acctType,
+          bankId
+        });
+      }
+
+      if (result && result.transactions) {
+        allTx.push(...result.transactions);
+      }
+    }
+
+    // Sort chronologically
+    allTx.sort((a, b) => a.date.localeCompare(b.date));
+
+    // Deduplication across batch if toggled
+    if (dedup) {
+      const seen = new Set<string>();
+      const deduped: NormalizedTransaction[] = [];
+      for (const t of allTx) {
+        const key = t.fitId ? `fit_${t.fitId}` : `${t.date}_${t.amount}_${t.payee.toLowerCase().slice(0, 20)}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          deduped.push(t);
+        }
+      }
+      allTx = deduped;
+    }
+
+    loadedTransactions = allTx;
+    renderUI();
+  }
+
+  function populateColumnMappingOptions(headers: string[]) {
+    const selects = [colMapDate, colMapDesc, colMapCheckNum, colMapDebit, colMapCredit];
+    selects.forEach(sel => {
+      if (!sel) return;
+      sel.innerHTML = '';
+      const emptyOpt = document.createElement('option');
+      emptyOpt.value = '';
+      emptyOpt.textContent = '(None / Auto)';
+      sel.appendChild(emptyOpt);
+
+      headers.forEach((h, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx.toString();
+        opt.textContent = `${h} (Col ${idx + 1})`;
+        sel.appendChild(opt);
+      });
+    });
+
+    // Smart auto-select
+    headers.forEach((h, idx) => {
+      const lower = h.toLowerCase();
+      if (/date|posted|time/.test(lower) && colMapDate) colMapDate.value = idx.toString();
+      if (/desc|payee|name|merchant/.test(lower) && colMapDesc) colMapDesc.value = idx.toString();
+      if (/check|chk/.test(lower) && colMapCheckNum) colMapCheckNum.value = idx.toString();
+      if (/debit|withdrawal|outflow/.test(lower) && colMapDebit) colMapDebit.value = idx.toString();
+      if (/credit|deposit|inflow/.test(lower) && colMapCredit) colMapCredit.value = idx.toString();
+    });
+  }
+
+  function renderUI() {
+    if (!metricsBar || !tableContainer || !downloadActionRow) return;
+
+    if (loadedTransactions.length === 0) {
+      if (checkTransactionsCard) checkTransactionsCard.style.display = 'none';
+      metricsBar.style.display = 'none';
+      tableContainer.style.display = 'none';
+      downloadActionRow.style.display = 'none';
+      return;
+    }
+
+    if (checkTransactionsCard) {
+      checkTransactionsCard.style.display = 'block';
+      if (checkTransactionsNotice) {
+        checkTransactionsNotice.textContent = `✓ We've read ${loadedTransactions.length} transactions from your file. Check the columns below.`;
+      }
+    }
+
+    metricsBar.style.display = 'flex';
+    tableContainer.style.display = 'block';
+    downloadActionRow.style.display = 'flex';
+
+    // Compute Metrics
+    let credits = 0;
+    let debits = 0;
+    let net = 0;
+
+    loadedTransactions.forEach(t => {
+      if (t.selected !== false) {
+        if (t.amount > 0) credits += t.amount;
+        else debits += Math.abs(t.amount);
+        net += t.amount;
+      }
+    });
+
+    if (metricTotalRows) metricTotalRows.textContent = loadedTransactions.length.toString();
+    if (metricCredits) metricCredits.textContent = `+$${credits.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    if (metricDebits) metricDebits.textContent = `-$${debits.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    if (metricNet) {
+      metricNet.textContent = `${net >= 0 ? '+' : '-'}$${Math.abs(net).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      metricNet.style.color = net >= 0 ? '#16A34A' : '#DC2626';
+    }
+
+    // Repair Badges
+    if (repairBadgesContainer) {
+      repairBadgesContainer.innerHTML = '';
+      if (ol222Toggle?.checked) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-lime';
+        badge.textContent = '🛡️ OL-222 SANITIZED';
+        repairBadgesContainer.appendChild(badge);
+      }
+      if (flipSignsToggle?.checked) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-lilac';
+        badge.textContent = '⇄ CHARGE SIGNS INVERTED';
+        repairBadgesContainer.appendChild(badge);
+      }
+      if (dedupToggle?.checked) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-navy';
+        badge.textContent = '🧹 FITID DEDUPLICATED';
+        repairBadgesContainer.appendChild(badge);
+      }
+    }
+
+    // Render Table Rows
+    if (transactionTableBody) {
+      transactionTableBody.innerHTML = '';
+      loadedTransactions.forEach((t, idx) => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid #E2E8F0';
+        if (!t.selected) tr.style.opacity = '0.4';
+
+        tr.innerHTML = `
+          <td style="padding: 12px 14px; text-align: center; width: 44px;"><input type="checkbox" data-idx="${idx}" class="row-select" style="width: 18px; height: 18px; cursor: pointer;" ${t.selected !== false ? 'checked' : ''} aria-label="Select row ${idx + 1}" /></td>
+          <td style="padding: 12px 14px; font-family: var(--font-mono); font-size: 13px; white-space: nowrap;">${t.date}</td>
+          <td style="padding: 12px 14px; min-width: 150px;" contenteditable="true" data-field="payee" data-idx="${idx}">${escapeHTML(t.payee)}</td>
+          <td style="padding: 12px 14px; text-align: right; font-weight: 600; font-family: var(--font-mono); white-space: nowrap; color: ${t.amount < 0 ? '#DC2626' : '#16A34A'};">
+            ${t.amount < 0 ? '-' : '+'}$${Math.abs(t.amount).toFixed(2)}
+          </td>
+          <td style="padding: 12px 14px; min-width: 140px;" contenteditable="true" data-field="memo" data-idx="${idx}">${escapeHTML(t.memo || '')}</td>
+          <td style="padding: 12px 14px; font-family: var(--font-mono); font-size: 12px;">${escapeHTML(t.checkNum || '')}</td>
+          <td style="padding: 12px 14px; font-family: var(--font-mono); font-size: 11px; color: #64748B;">${escapeHTML(t.fitId || '')}</td>
+        `;
+        transactionTableBody.appendChild(tr);
+      });
+
+      // Attach Cell Editing & Row Selection
+      transactionTableBody.querySelectorAll('.row-select').forEach(cb => {
+        cb.addEventListener('change', (e: Event) => {
+          const target = e.target as HTMLInputElement;
+          const idx = parseInt(target.getAttribute('data-idx') || '0', 10);
+          loadedTransactions[idx].selected = target.checked;
+          renderUI();
+        });
+      });
+
+      transactionTableBody.querySelectorAll('[contenteditable="true"]').forEach(cell => {
+        cell.addEventListener('blur', (e: Event) => {
+          const target = e.target as HTMLElement;
+          const idx = parseInt(target.getAttribute('data-idx') || '0', 10);
+          const field = target.getAttribute('data-field') as keyof NormalizedTransaction;
+          if (field) {
+            (loadedTransactions[idx] as any)[field] = target.textContent?.trim() || '';
+          }
+          updateRawPreview();
+        });
+      });
+    }
+
+    // Update CTA text
+    const target = targetFormatSelect?.value || 'QBO';
+    if (downloadPrimaryBtn) {
+      downloadPrimaryBtn.textContent = `📥 Download Ready .${target.toLowerCase()} (${loadedTransactions.filter(t => t.selected !== false).length} Rows)`;
+    }
+
+    if (rawPreviewDrawer && rawPreviewDrawer.style.display === 'block') {
+      updateRawPreview();
+    }
+  }
+
+  if (selectAllRows) {
+    selectAllRows.addEventListener('change', () => {
+      const isChecked = selectAllRows.checked;
+      loadedTransactions.forEach(t => t.selected = isChecked);
+      renderUI();
+    });
+  }
+
+  function generateOutputContent(): { text: string; ext: string; mime: string } {
+    const activeTx = loadedTransactions.filter(t => t.selected !== false);
+    const target = targetFormatSelect?.value || 'QBO';
+
+    const accountMeta: AccountMetadata = {
+      accountType: (accountTypeSelect?.value || 'CHECKING') as AccountMetadata['accountType'],
+      accountNumber: accountNumInput?.value || '4492',
+      routingNumber: '3000',
+      bankId: intuBidInput?.value || '3000',
+      bankName: 'FinFormat Account',
+      currency: 'USD',
+      iifOffsetAccount: offsetAccountInput?.value || 'Ask My Accountant'
+    };
+
+    if (target === 'QBO' || target === 'OFX' || target === 'QFX') {
+      return {
+        text: generateQBO(activeTx, accountMeta, { targetFormat: target as any, ol222SafeMode: ol222Toggle?.checked }),
+        ext: target.toLowerCase(),
+        mime: 'application/x-ofx'
+      };
+    } else if (target === 'IIF') {
+      return {
+        text: generateIIF(activeTx, accountMeta),
+        ext: 'iif',
+        mime: 'text/plain'
+      };
+    } else if (target === 'QIF') {
+      return {
+        text: generateQIF(activeTx, accountMeta),
+        ext: 'qif',
+        mime: 'text/plain'
+      };
+    } else if (target === 'QB_CSV') {
+      return {
+        text: exportToQuickBooks3Col(activeTx),
+        ext: 'csv',
+        mime: 'text/csv'
+      };
+    } else if (target === 'XERO_CSV') {
+      return {
+        text: exportToXeroCSV(activeTx),
+        ext: 'csv',
+        mime: 'text/csv'
+      };
+    } else {
+      return {
+        text: exportToCSV(activeTx),
+        ext: 'csv',
+        mime: 'text/csv'
+      };
+    }
+  }
+
+  function updateRawPreview() {
+    if (!rawPreviewContent) return;
+    const output = generateOutputContent();
+    rawPreviewContent.textContent = output.text.slice(0, 3000) + (output.text.length > 3000 ? '\n\n... [Remaining output truncated for preview]' : '');
+  }
+
+  // Download Action
+  if (downloadPrimaryBtn) {
+    downloadPrimaryBtn.addEventListener('click', () => {
+      const output = generateOutputContent();
+      const target = targetFormatSelect?.value || 'qbo';
+      const blob = new Blob([output.text], { type: output.mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `finformat_${target.toLowerCase()}_export.${output.ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  // TSV Copy for Excel
+  if (copyTsvBtn) {
+    copyTsvBtn.addEventListener('click', () => {
+      const tsv = exportToTSV(loadedTransactions.filter(t => t.selected !== false));
+      navigator.clipboard.writeText(tsv).then(() => {
+        const orig = copyTsvBtn.textContent;
+        copyTsvBtn.textContent = '✓ Copied to Clipboard!';
+        setTimeout(() => copyTsvBtn.textContent = orig, 2000);
+      });
+    });
+  }
+
+  if (copyRawBtn) {
+    copyRawBtn.addEventListener('click', () => {
+      const output = generateOutputContent();
+      navigator.clipboard.writeText(output.text).then(() => {
+        copyRawBtn.textContent = '✓ Copied!';
+        setTimeout(() => copyRawBtn.textContent = 'Copy Code', 2000);
+      });
+    });
+  }
+
+  function escapeHTML(str: string): string {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+</script>

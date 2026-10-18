@@ -1,0 +1,6 @@
+﻿Date,Description,Amount,Type,FITID,Check Number,Category,Memo
+2026-01-05,Shopify payout,1250.00,CREDIT,FFTEST20260105-001,,Sales Income,Shopify payout Jan 5
+2026-01-06,"Office Depot, #441",-84.17,DEBIT,FFTEST20260106-002,1041,Office Supplies,"Paper, toner and folders"
+2026-01-07,Stripe processing fee,-18.35,DEBIT,FFTEST20260107-003,,Bank Fees,Stripe processing fee Jan 7
+2026-01-08,ACME client payment,950.00,CREDIT,FFTEST20260108-004,,Sales Income,"Invoice ""1042"" payment"
+2026-01-09,Amazon Web Services,-42.99,DEBIT,FFTEST20260109-005,,Software,Cloud services

@@ -1,0 +1,6 @@
+﻿Date,Amount,Payee,Description,Reference
+01/05/2026,1250.00,Shopify payout,Shopify payout Jan 5,FFTEST20260105-001
+01/06/2026,-84.17,"Office Depot, #441","Paper, toner and folders",FFTEST20260106-002
+01/07/2026,-18.35,Stripe processing fee,Stripe processing fee Jan 7,FFTEST20260107-003
+01/08/2026,950.00,ACME client payment,"Invoice ""1042"" payment",FFTEST20260108-004
+01/09/2026,-42.99,Amazon Web Services,Cloud services,FFTEST20260109-005

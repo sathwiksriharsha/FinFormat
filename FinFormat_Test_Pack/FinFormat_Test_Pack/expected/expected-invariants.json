@@ -1,0 +1,47 @@
+{
+  "fixture_set": "FinFormat synthetic test pack v1",
+  "currency": "USD",
+  "base_transaction_count": 5,
+  "base_fitids": [
+    "FFTEST20260105-001",
+    "FFTEST20260106-002",
+    "FFTEST20260107-003",
+    "FFTEST20260108-004",
+    "FFTEST20260109-005"
+  ],
+  "base_amounts": [
+    1250.0,
+    -84.17,
+    -18.35,
+    950.0,
+    -42.99
+  ],
+  "base_net_change_usd": 2054.49,
+  "merge_expected_unique_fitid_count": 5,
+  "merge_expected_duplicate_fitids": [
+    "FFTEST20260107-003"
+  ],
+  "csv_credit_card_flip_input_amounts": [
+    49.99,
+    125.0,
+    -200.0,
+    -12.5
+  ],
+  "csv_credit_card_flip_expected_amounts": [
+    -49.99,
+    -125.0,
+    200.0,
+    12.5
+  ],
+  "ambiguous_date_test": {
+    "raw_date": "03/04/2026",
+    "expected_if_us_format": "2026-03-04",
+    "expected_if_day_first": "2026-04-03"
+  },
+  "notes": [
+    "Synthetic data only.",
+    "FID value 3000 in sample is a test token, not a claim of universal QuickBooks compatibility.",
+    "The OFX/QBO/QFX fixtures are representative SGML test data; real application acceptance must be tested on explicitly supported software versions.",
+    "CAMT.053 file is a synthetic ISO 20022 XML fixture; parsers may support different schema versions."
+  ]
+}

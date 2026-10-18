@@ -1,0 +1,32 @@
+!Type:Bank
+D01/05/2026
+T1250.00
+PShopify payout
+MShopify payout Jan 5
+LSales Income
+^
+D01/06/2026
+T-84.17
+POffice Depot, #441
+MPaper, toner and folders
+LOffice Supplies
+N1041
+^
+D01/07/2026
+T-18.35
+PStripe processing fee
+MStripe processing fee Jan 7
+LBank Fees
+^
+D01/08/2026
+T950.00
+PACME client payment
+MInvoice "1042" payment
+LSales Income
+^
+D01/09/2026
+T-42.99
+PAmazon Web Services
+MCloud services
+LSoftware
+^

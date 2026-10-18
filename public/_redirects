@@ -1,0 +1,4 @@
+# Canonical 301 redirects for legacy or dot-in-slug variations
+/camt.053-to-csv    /camt053-to-csv    301
+/camt-053-to-csv    /camt053-to-csv    301
+/qbo-convert        /                  301

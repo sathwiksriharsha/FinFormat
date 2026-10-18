@@ -1,0 +1,454 @@
+---
+import { FORMAT_ROUTES } from '../config/formatRoutes';
+import { BANK_PRESETS } from '../config/bankPresets';
+import BankLogo from './BankLogo.astro';
+import type { FormatRoute } from '../utils/types';
+
+interface Props {
+  currentSlug?: string;
+}
+
+const { currentSlug = '' } = Astro.props;
+
+const coreConverters = FORMAT_ROUTES.filter(r => !r.isRepairTool);
+const repairTools = FORMAT_ROUTES.filter(r => r.isRepairTool);
+
+// Helper for punchy short title matching the homepage cards
+function getToolShortTitle(r: FormatRoute) {
+  if (r.slug === 'quickbooks-csv-formatter') return 'QuickBooks CSV Formatter';
+  if (r.slug === 'xero-csv-formatter') return 'Xero CSV Formatter';
+  if (r.slug === 'fix-quickbooks-ol-222-error') return 'Fix OL-222 Error';
+  if (r.slug === 'fix-quickbooks-ol-301-error') return 'Fix OL-301 / OL-393';
+  if (r.slug === 'merge-qbo-ofx-files') return 'Merge QBO, OFX, CSV';
+  if (r.slug === 'credit-card-csv-sign-flipper') return 'Credit Card CSV Flipper';
+  return `${r.sourceFormat} to ${r.targetFormat}`;
+}
+
+// Helper for format pill color theme
+function getFormatTagClass(fmt: string) {
+  const f = fmt.toUpperCase();
+  if (f === 'CSV') return 'bg-mint';
+  if (f === 'QBO') return 'bg-blue';
+  if (f === 'OFX') return 'bg-blue';
+  if (f === 'IIF') return 'bg-pink';
+  if (f === 'QFX') return 'bg-coral';
+  if (f === 'QIF') return 'bg-cream';
+  if (f === 'MT940') return 'bg-slate-subtle';
+  if (f === 'CAMT.053') return 'bg-slate-subtle';
+  return 'bg-slate';
+}
+
+// Bank brand color mapping
+const BANK_COLORS: Record<string, string> = {
+  'chase': '#117ACA',
+  'bank-of-america': '#E31837',
+  'wells-fargo': '#D71E28',
+  'american-express': '#006FCF',
+  'capital-one': '#D03027',
+  'citi': '#003B70',
+  'us-bank': '#0C2074',
+  'pnc-bank': '#F26522',
+  'truist': '#241134',
+  'td-bank': '#008A00',
+  'discover-card': '#FF6600',
+  'charles-schwab': '#00A3E0',
+  'fidelity': '#417430',
+  'stripe': '#635BFF',
+  'paypal': '#003087',
+  'square': '#1E1E1E',
+  'shopify-payouts': '#96BF48',
+  'wise': '#00B9FF'
+};
+
+function getBankColor(slug: string) {
+  for (const [key, color] of Object.entries(BANK_COLORS)) {
+    if (slug.includes(key)) return color;
+  }
+  return '#0F172A';
+}
+---
+
+<div class="matrix-root-wrapper" style="margin-top: 56px; margin-bottom: 72px;">
+  
+  <!-- Section Title -->
+  <div style="margin-bottom: 36px;">
+    <h2 class="section-serif-title" style="font-size: clamp(26px, 3.5vw, 36px); margin-bottom: 6px;">
+      Full format &amp; repair matrix
+    </h2>
+    <p class="body-sm" style="color: #64748B;">
+      60+ high-intent financial converters, diagnostics, and institutional bank presets.
+    </p>
+  </div>
+
+  <!-- 01: Core Accounting File Converters -->
+  <div style="margin-bottom: 56px;">
+    <div class="section-title-row" style="margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="section-badge-number">01</span>
+        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A;">Core accounting file converters</h3>
+      </div>
+      <span class="caption" style="color: #64748B;">{coreConverters.length} converters</span>
+    </div>
+
+    <div class="tools-grid-4 matrix-grid-layout">
+      {coreConverters.map(r => {
+        const isCurrent = r.slug === currentSlug;
+        return (
+          <a 
+            href={`/${r.slug}`}
+            class={`tool-card matrix-tool-card ${isCurrent ? 'is-active-route' : ''}`}
+            style="text-decoration: none !important; color: #0F172A !important;"
+          >
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                <span class={`format-pill-tag ${getFormatTagClass(r.sourceFormat)}`}>{r.sourceFormat}</span>
+                <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+                <span class={`format-pill-tag ${getFormatTagClass(r.targetFormat)}`}>{r.targetFormat}</span>
+              </div>
+              <h3 style="font-size: 19px; font-weight: 700; color: #0F172A !important; margin-bottom: 8px; line-height: 1.3; text-decoration: none !important;">
+                {getToolShortTitle(r)}
+              </h3>
+              <p class="body-sm" style="color: #4B5563 !important; line-height: 1.45; margin: 0; text-decoration: none !important;">
+                {r.summary}
+              </p>
+            </div>
+            
+            <div class="tool-card-action" style="margin-top: 20px; text-decoration: none !important;">
+              <span style="font-size: 13.5px; font-weight: 600; color: #0F172A !important; text-decoration: none !important;">{isCurrent ? 'Current tool' : 'Open tool'}</span>
+              <span class="action-circle-arrow">&rarr;</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- 02: QuickBooks Error & Diagnostic Utilities -->
+  <div style="margin-bottom: 56px;">
+    <div class="section-title-row" style="margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="section-badge-number">02</span>
+        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A;">QuickBooks error &amp; diagnostic utilities</h3>
+      </div>
+      <span class="caption" style="color: #64748B;">{repairTools.length} repair tools</span>
+    </div>
+
+    <div class="tools-grid-4 matrix-grid-layout">
+      {repairTools.map((r, idx) => {
+        const isCurrent = r.slug === currentSlug;
+        const iconBgs = ['bg-pink-soft', 'bg-amber-soft', 'bg-lilac-soft', 'bg-mint-soft'];
+        const iconColors = ['#E11D48', '#D97706', '#7C3AED', '#059669'];
+        const iconBg = iconBgs[idx % iconBgs.length];
+        const iconColor = iconColors[idx % iconColors.length];
+
+        return (
+          <a 
+            href={`/${r.slug}`}
+            class={`tool-card matrix-tool-card ${isCurrent ? 'is-active-route' : ''}`}
+            style="text-decoration: none !important; color: #0F172A !important;"
+          >
+            <div>
+              <div class={`tool-icon-square ${iconBg}`} style="margin-bottom: 14px;">
+                {idx === 0 && (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={iconColor} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                )}
+                {idx === 1 && (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={iconColor} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                )}
+                {idx === 2 && (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={iconColor} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="18" r="3"/>
+                    <circle cx="6" cy="6" r="3"/>
+                    <path d="M6 21V9a9 9 0 0 0 9 9"/>
+                  </svg>
+                )}
+                {idx === 3 && (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={iconColor} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/>
+                  </svg>
+                )}
+              </div>
+              <h3 style="font-size: 19px; font-weight: 700; color: #0F172A !important; margin-bottom: 8px; line-height: 1.3; text-decoration: none !important;">
+                {getToolShortTitle(r)}
+              </h3>
+              <p class="body-sm" style="color: #4B5563 !important; line-height: 1.45; margin: 0; text-decoration: none !important;">
+                {r.summary}
+              </p>
+            </div>
+            
+            <div class="tool-card-action" style="margin-top: 20px; text-decoration: none !important;">
+              <span style="font-size: 13.5px; font-weight: 600; color: #0F172A !important; text-decoration: none !important;">{isCurrent ? 'Current tool' : 'Open tool'}</span>
+              <span class="action-circle-arrow">&rarr;</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- 03: US Bank & Payment Processor Presets -->
+  <div>
+    <div class="section-title-row" style="margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="section-badge-number">03</span>
+        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A;">US bank &amp; payment processor presets</h3>
+      </div>
+      <span class="caption" style="color: #64748B;">{BANK_PRESETS.length} presets</span>
+    </div>
+
+    <div class="banks-grid-4 matrix-grid-layout">
+      {BANK_PRESETS.map(b => {
+        const isCurrent = `/banks/${b.slug}` === currentSlug;
+        const brandColor = getBankColor(b.slug);
+
+        return (
+          <a 
+            href={`/banks/${b.slug}`}
+            class={`bank-card matrix-bank-card ${isCurrent ? 'is-active-route' : ''}`}
+            style="text-decoration: none !important; color: #0F172A !important;"
+          >
+            <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+              <BankLogo slug={b.slug} />
+              <div style="min-width: 0;">
+                <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  {b.name.split('(')[0].trim()}
+                </div>
+                <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  INTU.BID {b.intuBid} &bull; Checking, Savings
+                </div>
+              </div>
+            </div>
+            <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+
+</div>
+
+<style is:global>
+  .tools-grid-4,
+  .matrix-grid-layout {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px !important;
+    width: 100% !important;
+  }
+
+  .banks-grid-4 {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
+  .tool-card,
+  .matrix-tool-card,
+  a.tool-card,
+  a.matrix-tool-card,
+  a.tool-card:link,
+  a.tool-card:visited,
+  a.matrix-tool-card:link,
+  a.matrix-tool-card:visited {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    text-decoration: none !important;
+    color: #0F172A !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease, box-shadow 220ms ease !important;
+    min-height: 200px !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .tool-card:hover,
+  .matrix-tool-card:hover,
+  a.tool-card:hover,
+  a.matrix-tool-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06) !important;
+    text-decoration: none !important;
+  }
+
+  .tool-card-action {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    margin-top: 20px !important;
+    transition: gap 160ms ease !important;
+    text-decoration: none !important;
+  }
+
+  .tool-card:hover .tool-card-action,
+  .matrix-tool-card:hover .tool-card-action {
+    gap: 12px !important;
+  }
+
+  .bank-card,
+  .matrix-bank-card,
+  a.bank-card,
+  a.matrix-bank-card,
+  a.bank-card:link,
+  a.bank-card:visited,
+  a.matrix-bank-card:link,
+  a.matrix-bank-card:visited {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 14px !important;
+    padding: 16px 18px !important;
+    text-decoration: none !important;
+    color: #0F172A !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, box-shadow 200ms ease !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    gap: 10px !important;
+  }
+
+  .bank-card:hover,
+  .matrix-bank-card:hover,
+  a.bank-card:hover,
+  a.matrix-bank-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 6px 18px -3px rgba(0, 0, 0, 0.05) !important;
+    text-decoration: none !important;
+  }
+
+  .tool-card:hover .action-circle-arrow,
+  .matrix-tool-card:hover .action-circle-arrow,
+  .bank-card:hover .action-circle-arrow,
+  .matrix-bank-card:hover .action-circle-arrow {
+    background-color: #0F172A !important;
+    color: #FFFFFF !important;
+    transform: translateX(2px) !important;
+  }
+
+  .is-active-route,
+  a.is-active-route {
+    border-color: #0F172A !important;
+    background-color: #F8FAFC !important;
+    box-shadow: 0 0 0 1px #0F172A, 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+  }
+
+  .format-pill-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+  }
+
+  .bg-mint { background-color: #D1FAE5 !important; color: #065F46 !important; }
+  .bg-blue { background-color: #DBEAFE !important; color: #1E40AF !important; }
+  .bg-blue-subtle { background-color: #EFF6FF !important; color: #2563EB !important; }
+  .bg-lilac { background-color: #EDE9FE !important; color: #5B21B6 !important; }
+  .bg-slate { background-color: #F1F5F9 !important; color: #334155 !important; }
+  .bg-slate-subtle { background-color: #E2E8F0 !important; color: #1E293B !important; }
+  .bg-pink { background-color: #FCE7F3 !important; color: #9D174D !important; }
+  .bg-coral { background-color: #FFEDD5 !important; color: #9A3412 !important; }
+  .bg-cream { background-color: #FEF3C7 !important; color: #92400E !important; }
+
+  .tool-icon-square {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+  }
+
+  .bg-pink-soft { background-color: #FFE4E6 !important; color: #E11D48 !important; }
+  .bg-amber-soft { background-color: #FEF3C7 !important; color: #D97706 !important; }
+  .bg-lilac-soft { background-color: #F3E8FF !important; color: #7C3AED !important; }
+  .bg-mint-soft { background-color: #D1FAE5 !important; color: #059669 !important; }
+
+  .bank-logo-box {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .action-circle-arrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background-color: #F1F5F9 !important;
+    border: 1px solid #E2E8F0 !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    transition: background-color 160ms ease, transform 160ms ease, color 160ms ease !important;
+  }
+
+  .section-badge-number {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    background-color: #F1F5F9 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    font-family: var(--font-mono, monospace) !important;
+  }
+
+  .section-title-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  /* Responsive Grid Breakpoints */
+  @media (max-width: 1024px) {
+    .tools-grid-4,
+    .banks-grid-4,
+    .matrix-grid-layout {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 16px !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tools-grid-4,
+    .banks-grid-4,
+    .matrix-grid-layout {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+    }
+  }
+</style>

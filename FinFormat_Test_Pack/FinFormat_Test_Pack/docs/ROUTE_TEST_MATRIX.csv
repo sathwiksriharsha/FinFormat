@@ -1,0 +1,26 @@
+﻿route_slug,input_fixture,expected_result,verification_notes
+csv-to-qbo,fixtures/csv/csv-basic-single-amount.csv,5 records; amounts and dates preserved; output uses selected supported bank/profile.,Check generated QBO semantics; do not assume bank acceptance from parser test alone.
+qbo-to-csv,fixtures/qbo/sample-bank.qbo,5 records; net change 2054.49 USD.,"Compare output dates, amounts, FITIDs, and descriptions to expected/normalized-transactions.csv."
+csv-to-iif,fixtures/csv/csv-basic-single-amount.csv,5 transactions; each IIF block has TRNS + SPL + ENDTRNS.,TRNS and SPL amounts must offset; test actual QuickBooks import separately.
+qbo-to-iif,fixtures/qbo/sample-bank.qbo,5 transactions; mapped account names visible.,Check account mapping and sign semantics; balance alone is insufficient.
+ofx-to-iif,fixtures/ofx/sample-bank.ofx,"5 transactions, same net change.",Review generated IIF mapping and balance.
+ofx-to-csv,fixtures/ofx/sample-bank.ofx,5 records.,Compare normalized values.
+csv-to-ofx,fixtures/csv/csv-basic-single-amount.csv,5 records; correct OFX 1.02 header if that is the implemented target.,Inspect generated file in text editor and test parser round-trip.
+qfx-to-csv,fixtures/qfx/sample-quicken.qfx,5 records.,Compare normalized values.
+csv-to-qfx,fixtures/csv/csv-basic-single-amount.csv,5 records.,Verify QFX-specific metadata only where supported; parse output again.
+qfx-to-qbo,fixtures/qfx/sample-quicken.qfx,5 records.,Check selected institution profile and QBO output.
+ofx-to-qbo,fixtures/ofx/sample-bank.ofx,5 records.,Check output structure and selected institution metadata.
+csv-to-qif,fixtures/csv/csv-basic-single-amount.csv,"5 entries, each ending with ^.","Parse generated QIF back and compare dates, amounts, payees."
+qif-to-csv,fixtures/qif/sample-bank.qif,5 records.,Compare normalized values.
+qif-to-qbo,fixtures/qif/sample-bank.qif,5 records.,"Check output amounts, signs, and unique IDs."
+qif-to-iif,fixtures/qif/sample-bank.qif,5 transactions.,Check account mapping and balanced entries.
+iif-to-csv,fixtures/iif/sample-quickbooks.iif,5 transactions parsed from 5 blocks.,Verify each block groups one TRNS and one SPL correctly.
+mt940-to-csv,fixtures/mt940/sample-bank.mt940,5 records; comma decimals parsed as decimal amounts.,Net change 2054.49 USD.
+mt940-to-qbo,fixtures/mt940/sample-bank.mt940,5 records.,Inspect QBO metadata and round-trip values.
+camt053-to-csv,fixtures/camt053/sample-statement-camt053.xml,5 entries; CRDT positive and DBIT negative.,Compare normalized values; confirm schema/version support.
+quickbooks-csv-formatter,fixtures/csv/csv-bank-metadata-rows.csv,Skips/handles metadata rows and emits requested 3- or 4-column format.,Compare to expected QuickBooks files.
+xero-csv-formatter,fixtures/csv/csv-basic-single-amount.csv,5 records.,Compare to expected/xero-bank-feed-example.csv based on selected Xero format.
+fix-quickbooks-ol-222-error,fixtures/qbo/malformed-ol222.qbo,Sanitizer reports issues; long payee is handled safely.,"Check no unescaped &, unsafe characters, or truncated-data loss without memo handling."
+fix-quickbooks-ol-301-error,fixtures/qbo/unrecognized-bank-id-test-only.qbo,Flags unrecognized test-only ID and asks for an explicit valid profile or supported repair choice.,Must not imply 999999 is a real bank ID or silently claim compatibility.
+merge-qbo-ofx-files,fixtures/merge/statement-a.qbo + fixtures/merge/statement-b-with-overlap.qbo + fixtures/merge/extra-duplicate.csv,5 unique FITIDs after dedupe; Jan 7 fee occurs once.,Confirm chronological sort and user-visible duplicate summary.
+credit-card-csv-sign-flipper,fixtures/csv/credit-card-positive-charges.csv,"Output amounts: -49.99, -125.00, +200.00, +12.50 after flip.",Ensure flip is applied exactly once and can be disabled.

@@ -1,0 +1,1145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ConverterWorkspace from '../components/ConverterWorkspace.astro';
+import BankLogo from '../components/BankLogo.astro';
+
+const faqs = [
+  {
+    question: 'How does FinFormat ensure 100% privacy for bank statements?',
+    answer: 'Unlike web converters that upload your bank statements to remote cloud servers, FinFormat runs entirely client-side using JavaScript in your browser tab. Your files, account numbers, and transaction balances never leave your computer.'
+  },
+  {
+    question: 'How do I bypass the QuickBooks Desktop Web Connect sunset?',
+    answer: 'When Intuit discontinues an older version of QuickBooks Desktop (2020–2023), Web Connect .QBO imports are disabled. Converting your bank statements to balanced .IIF format allows you to import transactions indefinitely without paying for a subscription.'
+  },
+  {
+    question: 'What causes QuickBooks Error OL-222 and how does FinFormat fix it?',
+    answer: 'QuickBooks Error OL-222 occurs when a .QBO file contains unescaped ampersands (&), illegal SGML characters (< > : /), or payee names exceeding 32 characters. FinFormat automatically sanitizes all illegal characters and truncates payee names while moving overflow descriptions into the memo field.'
+  },
+  {
+    question: 'Why do American Express charges import as deposits, and how do I fix it?',
+    answer: 'American Express exports charges as positive numbers. In accounting, charges are outflows (negative cash). FinFormat features a 1-click Credit Card Sign Flipper that inverts charges into negative numbers so they import into bank feeds correctly.'
+  },
+  {
+    question: 'Can I batch merge multiple monthly bank statements into one file?',
+    answer: 'Yes. Drop multiple CSV, QBO, or OFX files into the workbench simultaneously. FinFormat combines them chronologically, deduplicates repeating transactions using unique FITID hashes, and outputs a single unified statement.'
+  }
+];
+---
+
+<BaseLayout 
+  title="FinFormat — Financial File Converters That Just Work"
+  description="Convert, repair, and prepare bank statements for QuickBooks, Quicken, Excel, Xero and more — instantly in your browser. Fast, private, and free."
+  canonicalPath="/"
+  faqs={faqs}
+>
+  <div class="site-container" style="padding-top: clamp(36px, 5vw, 64px); padding-bottom: 72px;">
+    
+    <!-- Hero Section (Matching Image 1 & 2 Design System) -->
+    <section class="hero-editorial-grid">
+      <!-- Left Column: Copy, Search & Filters -->
+      <div class="hero-copy-col">
+        <div class="eyebrow" style="color: #64748B; margin-bottom: 12px; font-weight: 600; letter-spacing: 1px;">
+          TOOLS &bull; 60+ CONVERTERS &amp; UTILITIES
+        </div>
+        
+        <h1 class="display-serif" style="margin-bottom: 16px;">
+          Financial file converters that just work.
+        </h1>
+        
+        <p class="body-lg" style="color: #475569; max-width: 600px; margin-bottom: 28px; line-height: 1.5;">
+          Convert, repair, and prepare bank statements for QuickBooks, Quicken, Excel, Xero and more &mdash; instantly in your browser. Fast, private, and free.
+        </p>
+
+        <!-- Interactive Search Bar -->
+        <div class="search-bar-container" style="margin-bottom: 20px;">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="text" 
+              id="heroToolsSearch" 
+              class="hero-search-input" 
+              placeholder='Search converters, e.g. "CSV to QBO", "OFX to CSV", "Stripe"...' 
+              aria-label="Search financial converters and utilities"
+            />
+            <button type="button" id="searchSubmitBtn" class="search-arrow-btn" aria-label="Search tools">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Pills Row -->
+        <div class="filter-pills-row" style="margin-bottom: 28px;">
+          <button type="button" class="filter-pill active" data-category="all">All (60+)</button>
+          <button type="button" class="filter-pill" data-category="converters">Format Converters</button>
+          <button type="button" class="filter-pill" data-category="repair">QuickBooks Repair</button>
+          <button type="button" class="filter-pill" data-category="banks">Bank Presets</button>
+          <button type="button" class="filter-pill" data-category="excel">Excel &amp; CSV</button>
+          <button type="button" class="filter-pill" data-category="popular">Popular</button>
+        </div>
+
+        <!-- Trust Badges Row -->
+        <div class="trust-badges-row">
+          <div class="trust-badge-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #0F172A; flex-shrink: 0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #0F172A; line-height: 1.2;">100% Private</div>
+              <div style="font-size: 12px; color: #64748B;">In your browser</div>
+            </div>
+          </div>
+
+          <div class="trust-badge-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #0F172A; flex-shrink: 0;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #0F172A; line-height: 1.2;">Instant Results</div>
+              <div style="font-size: 12px; color: #64748B;">No uploads</div>
+            </div>
+          </div>
+
+          <div class="trust-badge-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #0F172A; flex-shrink: 0;"><path d="M18.178 8c5.096 0 5.096 8 0 8-2.688 0-4.48-2.48-6.178-4-1.698-1.52-3.49-4-6.178-4-5.096 0-5.096 8 0 8 2.688 0 4.48-2.48 6.178-4 1.698-1.52 3.49-4 6.178-4z"/></svg>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #0F172A; line-height: 1.2;">No Limits</div>
+              <div style="font-size: 12px; color: #64748B;">Free forever</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: 3D Illustration & Handwritten Annotation -->
+      <div class="hero-visual-col">
+        <div class="hero-3d-wrapper">
+          <div class="handwritten-annotation">
+            <span>Your bank file ready for QuickBooks in seconds.</span>
+            <svg class="handwritten-arrow" width="36" height="36" viewBox="0 0 50 50" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 10 C 25 10, 40 20, 35 38" />
+              <polyline points="28 35 35 42 42 35" />
+            </svg>
+          </div>
+
+          <img 
+            src="/images/hero-floating-cards.jpg" 
+            alt="3D render of floating CSV to QBO financial file documents" 
+            class="hero-floating-img" 
+            loading="eager" 
+            width="560" 
+            height="420"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Bento Converter Card (Image 2 Archetype) -->
+    <section class="featured-bento-section" style="margin-top: 36px; margin-bottom: 48px;">
+      <div class="featured-bento-inner">
+        <div class="bento-copy-col">
+          <div class="badge-lilac" style="font-size: 11px; font-weight: 700; padding: 4px 10px; margin-bottom: 14px; width: fit-content;">
+            &uarr; MOST USED
+          </div>
+          <h2 style="font-size: clamp(26px, 3.5vw, 38px); font-weight: 700; color: #FFFFFF; line-height: 1.2; margin-bottom: 12px;">
+            CSV to QBO
+          </h2>
+          <p style="color: #94A3B8; font-size: 15px; line-height: 1.5; margin-bottom: 24px; max-width: 420px;">
+            Turn any bank or credit card CSV into a valid QuickBooks Web Connect .QBO file ready for 1-click import into Bank Feeds.
+          </p>
+          <a href="/csv-to-qbo" class="button-primary" style="background-color: #FFFFFF; color: #000000; font-weight: 600; padding: 10px 22px; width: fit-content; text-decoration: none; border-radius: var(--rounded-pill); gap: 8px;">
+            <span>Open Converter</span>
+            <span style="font-size: 16px;">&rarr;</span>
+          </a>
+        </div>
+
+        <!-- Interactive Comparison Mockup -->
+        <div class="bento-mockup-col">
+          <div class="mockup-cards-container">
+            <!-- Left Card: Bank Statement CSV -->
+            <div class="mockup-side-card">
+              <div class="mockup-card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>Bank Statement.csv</span>
+              </div>
+              <div class="mockup-table">
+                <div class="mockup-row mockup-header-row">
+                  <span>Date</span>
+                  <span>Description</span>
+                  <span style="text-align: right;">Amount</span>
+                </div>
+                <div class="mockup-row">
+                  <span>Mar 01</span>
+                  <span class="truncate-cell">Amazon AWS</span>
+                  <span style="text-align: right; color: #EF4444;">-$42.99</span>
+                </div>
+                <div class="mockup-row">
+                  <span>Mar 01</span>
+                  <span class="truncate-cell">Stripe Payout</span>
+                  <span style="text-align: right; color: #10B981;">+$1,250.00</span>
+                </div>
+                <div class="mockup-row">
+                  <span>Mar 02</span>
+                  <span class="truncate-cell">Office Depot</span>
+                  <span style="text-align: right; color: #EF4444;">-$21.34</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Directional Flow Circle -->
+            <div class="mockup-flow-circle" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+
+            <!-- Right Card: QuickBooks QBO Code Preview -->
+            <div class="mockup-side-card mockup-qbo-card">
+              <div class="mockup-card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#DCEEB1" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span style="color: #DCEEB1;">QuickBooks.qbo</span>
+              </div>
+              <div class="mockup-code-block">
+                <span class="code-line"><span class="code-tag">&lt;STMTTRN&gt;</span></span>
+                <span class="code-line">&nbsp;&nbsp;<span class="code-tag">&lt;TRNTYPE&gt;</span>DEBIT<span class="code-tag">&lt;/TRNTYPE&gt;</span></span>
+                <span class="code-line">&nbsp;&nbsp;<span class="code-tag">&lt;TRNAMT&gt;</span>-42.99<span class="code-tag">&lt;/TRNAMT&gt;</span></span>
+                <span class="code-line">&nbsp;&nbsp;<span class="code-tag">&lt;NAME&gt;</span>Amazon AWS<span class="code-tag">&lt;/NAME&gt;</span></span>
+                <span class="code-line"><span class="code-tag">&lt;/STMTTRN&gt;</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 01: Popular Converters (Image 1 & 2 Archetype) -->
+    <section class="catalog-section" id="converters" style="margin-top: 48px; margin-bottom: 48px; scroll-margin-top: 90px;">
+      <div class="section-title-row">
+        <div>
+          <div class="section-badge-number">01</div>
+          <h2 class="section-serif-title">Popular converters</h2>
+          <p class="body-sm" style="color: #64748B; margin-top: 4px;">
+            Most used tools for small businesses, accountants, and bookkeepers.
+          </p>
+        </div>
+        <a href="/csv-to-qbo" class="section-view-all">View all &rarr;</a>
+      </div>
+
+      <div class="tools-grid-4" id="toolsGridConverters">
+        <!-- Card 1: CSV to QBO -->
+        <a href="/csv-to-qbo" class="tool-card tool-item" data-category="converters popular" data-search="csv to qbo quickbooks bank credit card web connect">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-mint">CSV</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-blue">QBO</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">CSV to QBO</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Convert bank or credit card CSV downloads to QuickBooks .QBO Web Connect format.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 2: QBO to CSV -->
+        <a href="/qbo-to-csv" class="tool-card tool-item" data-category="converters popular excel" data-search="qbo to csv extract excel quickbooks clean">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-lilac">QBO</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-slate">CSV</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">QBO to CSV</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Extract transactions from .QBO files into clean CSV or Excel format.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 3: CSV to IIF -->
+        <a href="/csv-to-iif" class="tool-card tool-item" data-category="converters popular" data-search="csv to iif quickbooks desktop balanced trns spl entries double entry">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-mint">CSV</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-pink">IIF</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">CSV to IIF</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Create balanced .IIF files for QuickBooks Desktop with proper TRNS and SPL entries.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 4: OFX to QBO -->
+        <a href="/ofx-to-qbo" class="tool-card tool-item" data-category="converters" data-search="ofx to qbo convert bank statement format bank id">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-blue">OFX</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-blue-subtle">QBO</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">OFX to QBO</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Convert bank .OFX statements to QuickBooks .QBO with correct formatting and bank IDs.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 5: QFX to CSV -->
+        <a href="/qfx-to-csv" class="tool-card tool-item" data-category="converters excel" data-search="qfx to csv quicken extract excel spreadsheet">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-coral">QFX</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-slate">CSV</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">QFX to CSV</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Convert Quicken .QFX statements into readable, formatted CSV and Excel files.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 6: CSV to QFX -->
+        <a href="/csv-to-qfx" class="tool-card tool-item" data-category="converters" data-search="csv to qfx quicken web connect import create">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-mint">CSV</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-coral">QFX</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">CSV to QFX</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Generate Quicken-compatible Web Connect .QFX files from any spreadsheet.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 7: QIF to QBO -->
+        <a href="/qif-to-qbo" class="tool-card tool-item" data-category="converters" data-search="qif to qbo quicken interchange convert quickbooks">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-cream">QIF</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-blue">QBO</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">QIF to QBO</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Convert legacy Quicken Interchange (.QIF) records into valid QuickBooks .QBO format.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 8: MT940 to CSV -->
+        <a href="/mt940-to-csv" class="tool-card tool-item" data-category="converters excel" data-search="mt940 to csv swift sta international bank statement">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span class="format-pill-tag bg-slate-subtle">MT940</span>
+              <span style="color: #94A3B8; font-size: 13px;">&rarr;</span>
+              <span class="format-pill-tag bg-slate">CSV</span>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">MT940 to CSV</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Parse SWIFT MT940 (.sta) bank feeds into standard tabular Excel CSVs.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION 02: QuickBooks Error & Repair Tools (Image 1 Archetype) -->
+    <section class="catalog-section" id="repair" style="margin-top: 48px; margin-bottom: 48px; scroll-margin-top: 90px;">
+      <div class="section-title-row">
+        <div>
+          <div class="section-badge-number">02</div>
+          <h2 class="section-serif-title">QuickBooks error &amp; repair tools</h2>
+          <p class="body-sm" style="color: #64748B; margin-top: 4px;">
+            Fix common import errors and clean problematic files.
+          </p>
+        </div>
+        <a href="/fix-quickbooks-ol-222-error" class="section-view-all">View all &rarr;</a>
+      </div>
+
+      <div class="tools-grid-4" id="toolsGridRepair">
+        <!-- Repair 1: Fix OL-222 Error -->
+        <a href="/fix-quickbooks-ol-222-error" class="tool-card tool-item" data-category="repair popular" data-search="fix ol-222 error repair corrupt qbo 32 char sanitization ampersand">
+          <div>
+            <div class="tool-icon-square bg-pink-soft" style="margin-bottom: 14px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E11D48" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">Fix OL-222 Error</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Repair corrupted .QBO files that trigger QuickBooks Error OL-222 with automated cleaning.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Repair 2: Fix OL-301 / OL-393 -->
+        <a href="/fix-quickbooks-ol-301-error" class="tool-card tool-item" data-category="repair" data-search="fix ol-301 ol-393 bank id intu bid patch expired unrecognized">
+          <div>
+            <div class="tool-icon-square bg-amber-soft" style="margin-bottom: 14px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">Fix OL-301 / OL-393</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Resolve expired, unrecognized or discontinued bank ID issues in .QBO files.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Repair 3: Merge QBO, OFX, CSV -->
+        <a href="/merge-qbo-ofx-files" class="tool-card tool-item" data-category="repair" data-search="merge qbo ofx csv combine multiple monthly statements deduplicate">
+          <div>
+            <div class="tool-icon-square bg-lilac-soft" style="margin-bottom: 14px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">Merge QBO, OFX, CSV</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Combine multiple monthly statements into a single unified file sorted chronologically.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Repair 4: Credit Card CSV Flipper -->
+        <a href="/credit-card-csv-sign-flipper" class="tool-card tool-item" data-category="repair excel popular" data-search="credit card csv sign flipper invert debit credit expenses charges amex">
+          <div>
+            <div class="tool-icon-square bg-mint-soft" style="margin-bottom: 14px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 8px;">Credit Card CSV Flipper</h3>
+            <p class="body-sm" style="color: #4B5563; line-height: 1.45;">
+              Flip debit and credit signs for credit card statements so charges import correctly.
+            </p>
+          </div>
+          <div class="tool-card-action">
+            <span>Open tool</span>
+            <span class="action-circle-arrow">&rarr;</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION 03: US Bank & Payment Processor Presets (Image 1 Archetype) -->
+    <section class="catalog-section" id="banks" style="margin-top: 48px; margin-bottom: 56px; scroll-margin-top: 90px;">
+      <div class="section-title-row">
+        <div>
+          <div class="section-badge-number">03</div>
+          <h2 class="section-serif-title">US bank &amp; payment processor presets</h2>
+          <p class="body-sm" style="color: #64748B; margin-top: 4px;">
+            Pre-configured settings for popular banks and payment platforms.
+          </p>
+        </div>
+        <a href="/#workbench" class="section-view-all">View all &rarr;</a>
+      </div>
+
+      <div class="banks-grid-4" id="toolsGridBanks">
+        <!-- Chase -->
+        <a href="/banks/chase-csv-to-qbo" class="bank-card tool-item" data-category="banks popular" data-search="chase jpmorgan checking savings credit card fid 10898">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="chase" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">JPMorgan Chase</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Checking, Savings, Cards</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+
+        <!-- Bank of America -->
+        <a href="/banks/bank-of-america-csv-to-qbo" class="bank-card tool-item" data-category="banks popular" data-search="bank of america bofa checking savings credit cards fid 6812">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="bank-of-america" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Bank of America</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Checking, Savings, Cards</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+
+        <!-- Wells Fargo -->
+        <a href="/banks/wells-fargo-csv-to-qbo" class="bank-card tool-item" data-category="banks popular" data-search="wells fargo checking savings business fid 3000">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="wells-fargo" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Wells Fargo</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Checking, Business</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+
+        <!-- American Express -->
+        <a href="/banks/american-express-csv-to-qbo" class="bank-card tool-item" data-category="banks popular" data-search="american express amex business platinum gold blue fid 3101">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="american-express" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">American Express</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Platinum, Gold, Blue</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+
+        <!-- Stripe -->
+        <a href="/banks/stripe-csv-to-quickbooks" class="bank-card tool-item" data-category="banks popular" data-search="stripe payouts fee split balance history">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="stripe" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Stripe</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Balance History &amp; Fees</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+
+        <!-- PayPal -->
+        <a href="/banks/paypal-csv-to-quickbooks" class="bank-card tool-item" data-category="banks popular" data-search="paypal activity fees merchant business">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="paypal" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">PayPal</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Activity &amp; Business</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+
+        <!-- Square -->
+        <a href="/banks/square-csv-to-quickbooks" class="bank-card tool-item" data-category="banks" data-search="square pos sales daily summary merchant">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="square" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Square</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Transactions &amp; Sales</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+
+        <!-- Shopify -->
+        <a href="/banks/shopify-payouts-csv-to-quickbooks" class="bank-card tool-item" data-category="banks" data-search="shopify payouts e-commerce orders fees">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <BankLogo slug="shopify" />
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Shopify</div>
+              <div style="font-size: 12px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Payouts &amp; Orders</div>
+            </div>
+          </div>
+          <span class="action-circle-arrow" style="flex-shrink: 0;">&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- LIVE CONVERTER WORKBENCH ANCHOR -->
+    <section id="workbench" style="margin-top: 56px; margin-bottom: 56px; scroll-margin-top: 80px;">
+      <div style="margin-bottom: 20px;">
+        <span class="eyebrow" style="color: #64748B; margin-bottom: 8px; display: inline-block;">Instant Browser-RAM Engine</span>
+        <h2 class="section-serif-title">Universal Conversion Workspace</h2>
+        <p class="body-sm" style="color: #64748B; margin-top: 4px;">
+          Drop any bank statement or credit card export below for instant 100% private conversion.
+        </p>
+      </div>
+
+      <ConverterWorkspace 
+        initialSource="CSV"
+        initialTarget="QBO"
+      />
+    </section>
+
+    <!-- Color Block 1: Lime Ground (Systems & Problem Solving) -->
+    <section class="color-block-section color-block-lime">
+      <div style="max-width: 880px;">
+        <span class="eyebrow" style="color: #2b542c; margin-bottom: 12px; display: inline-block;">Solving The 4 Accounting File Walls</span>
+        <h2 class="display-lg" style="margin-bottom: 20px;">
+          Built for CPAs, bookkeepers, and US businesses.
+        </h2>
+        <p class="body-lg" style="margin-bottom: 36px; color: #173819;">
+          Bank downloads are plagued with obsolete 1997 SGML syntax, inverted credit card signs, and discontinued desktop imports. FinFormat eliminates these roadblocks instantly.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 20px;">
+          <div style="background-color: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: var(--rounded-md); min-width: 0; box-sizing: border-box;">
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">QuickBooks Desktop Sunset</h3>
+            <p class="body-sm" style="color: #27272a;">
+              Bypass Intuit's $1,200/yr subscription lockouts. Convert .QBO and .CSV into balanced double-entry .IIF files that import into discontinued desktop versions forever.
+            </p>
+          </div>
+
+          <div style="background-color: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: var(--rounded-md); min-width: 0; box-sizing: border-box;">
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">1-Click OL-222 / OL-301 Fix</h3>
+            <p class="body-sm" style="color: #27272a;">
+              Stop editing Notepad files. Automatically sanitize illegal ampersands, cap payee names at 32 characters, and patch valid INTU.BID codes.
+            </p>
+          </div>
+
+          <div style="background-color: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: var(--rounded-md); min-width: 0; box-sizing: border-box;">
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Credit Card Sign Inversion</h3>
+            <p class="body-sm" style="color: #27272a;">
+              Fix Amex and credit card statements where expenses export as positive numbers, preventing them from importing as deposits.
+            </p>
+          </div>
+
+          <div style="background-color: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: var(--rounded-md); min-width: 0; box-sizing: border-box;">
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Stripe &amp; PayPal Fee Splitting</h3>
+            <p class="body-sm" style="color: #27272a;">
+              Separate Gross revenue and processing fees into balanced journal entries so bank reconciliation matches to the penny.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Color Block 2: Navy Ground (Security & Privacy Proof) -->
+    <section class="color-block-section color-block-navy">
+      <div style="max-width: 880px;">
+        <span class="eyebrow" style="color: var(--color-block-lime); margin-bottom: 12px; display: inline-block;">Privacy &amp; Architecture</span>
+        <h2 class="display-lg" style="margin-bottom: 20px; color: #FFFFFF;">
+          Your financial data never touches a server.
+        </h2>
+        <p class="body-lg" style="margin-bottom: 32px; color: #D4D4D4;">
+          Every parsing algorithm, regex transformation, and file generation routine executes locally in your browser memory. Inspect the source or open devtools network tab &mdash; zero bytes are transmitted.
+        </p>
+
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="/security-privacy" class="button-primary" style="background-color: var(--color-block-lime); color: #000000;">
+            Read Security Architecture
+          </a>
+          <a href="/documentation" class="button-secondary" style="background-color: transparent; color: #FFFFFF; border-color: rgba(255, 255, 255, 0.3);">
+            Technical Documentation
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* Hero Editorial Grid */
+  .hero-editorial-grid {
+    display: grid;
+    grid-template-columns: 1.12fr 0.88fr;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .hero-copy-col {
+    min-width: 0;
+  }
+
+  .hero-visual-col {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .hero-3d-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .hero-floating-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 20px;
+    filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.08));
+    animation: gentleFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes gentleFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .handwritten-annotation {
+    position: absolute;
+    top: -24px;
+    right: 8px;
+    font-family: var(--font-handwriting);
+    font-size: 19px;
+    color: #475569;
+    font-weight: 600;
+    line-height: 1.1;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transform: rotate(2deg);
+    pointer-events: none;
+  }
+
+  .handwritten-arrow {
+    margin-top: 2px;
+    margin-right: 28px;
+  }
+
+  /* Search Input */
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: var(--rounded-pill);
+    padding: 6px 6px 6px 18px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  .search-input-wrapper:focus-within {
+    border-color: #0F172A;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+  }
+
+  .search-icon {
+    flex-shrink: 0;
+    margin-right: 12px;
+  }
+
+  .hero-search-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: #0F172A;
+  }
+
+  .hero-search-input::placeholder {
+    color: #94A3B8;
+  }
+
+  .search-arrow-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--rounded-full);
+    border: none;
+    background-color: var(--color-surface-soft);
+    color: #0F172A;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+
+  .search-arrow-btn:hover {
+    background-color: #0F172A;
+    color: #FFFFFF;
+  }
+
+  /* Filter Pills Row */
+  .filter-pills-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Trust Badges Row */
+  .trust-badges-row {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .trust-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Featured Bento Section */
+  .featured-bento-section {
+    width: 100%;
+    background: linear-gradient(135deg, #090D16 0%, #111827 50%, #1A2234 100%);
+    border-radius: var(--rounded-xl);
+    padding: clamp(28px, 4vw, 44px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.25);
+  }
+
+  .featured-bento-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .bento-copy-col {
+    min-width: 0;
+  }
+
+  .bento-mockup-col {
+    min-width: 0;
+  }
+
+  .mockup-cards-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+  }
+
+  .mockup-side-card {
+    flex: 1;
+    min-width: 0;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .mockup-qbo-card {
+    background-color: #05070D;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mockup-card-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .mockup-qbo-card .mockup-card-header {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .mockup-table {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 11.5px;
+    font-family: var(--font-sans);
+  }
+
+  .mockup-row {
+    display: grid;
+    grid-template-columns: 46px 1fr 58px;
+    gap: 6px;
+    align-items: center;
+    color: #334155;
+  }
+
+  .mockup-header-row {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .truncate-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mockup-flow-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #2563EB;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px rgba(37, 99, 235, 0.4);
+  }
+
+  .mockup-code-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: #E2E8F0;
+    line-height: 1.35;
+  }
+
+  .code-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .code-tag {
+    color: #60A5FA;
+  }
+
+  /* Catalog Sections */
+  .section-title-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 16px;
+  }
+
+  .section-badge-number {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: #94A3B8;
+    margin-bottom: 4px;
+  }
+
+  .section-view-all {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F172A;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 160ms ease;
+  }
+
+  .section-view-all:hover {
+    opacity: 0.65;
+  }
+
+  /* Grids */
+  .tools-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .banks-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .format-pill-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .bg-mint { background-color: #D1FAE5; color: #065F46; }
+  .bg-blue { background-color: #DBEAFE; color: #1E40AF; }
+  .bg-blue-subtle { background-color: #EFF6FF; color: #2563EB; }
+  .bg-lilac { background-color: #EDE9FE; color: #5B21B6; }
+  .bg-slate { background-color: #F1F5F9; color: #334155; }
+  .bg-slate-subtle { background-color: #E2E8F0; color: #1E293B; }
+  .bg-pink { background-color: #FCE7F3; color: #9D174D; }
+  .bg-coral { background-color: #FFEDD5; color: #9A3412; }
+  .bg-cream { background-color: #FEF3C7; color: #92400E; }
+
+  .tool-icon-square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+
+  .bg-pink-soft { background-color: #FFE4E6; }
+  .bg-amber-soft { background-color: #FEF3C7; }
+  .bg-lilac-soft { background-color: #F3E8FF; }
+  .bg-mint-soft { background-color: #D1FAE5; }
+
+  .bank-logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1024px) {
+    .tools-grid-4, .banks-grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .hero-editorial-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .hero-visual-col {
+      order: -1;
+    }
+    .featured-bento-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tools-grid-4, .banks-grid-4 {
+      grid-template-columns: 1fr;
+    }
+    .trust-badges-row {
+      gap: 16px;
+    }
+    .mockup-cards-container {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .mockup-flow-circle {
+      transform: rotate(90deg);
+    }
+    .handwritten-annotation {
+      position: static;
+      margin-bottom: 8px;
+      align-items: center;
+      transform: none;
+    }
+    .handwritten-arrow {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Client-side Reactive Search & Filter Logic
+  const searchInput = document.getElementById('heroToolsSearch') as HTMLInputElement | null;
+  const filterPills = document.querySelectorAll('.filter-pill');
+  let activeCategory = 'all';
+  let searchQuery = '';
+
+  function applyFilters() {
+    const catalogSections = document.querySelectorAll('.catalog-section') as NodeListOf<HTMLElement>;
+    let totalVisible = 0;
+
+    catalogSections.forEach(sec => {
+      const items = sec.querySelectorAll('.tool-item') as NodeListOf<HTMLElement>;
+      let secVisible = 0;
+
+      items.forEach(item => {
+        const itemCategories = (item.dataset.category || '').toLowerCase();
+        const itemSearch = (item.dataset.search || '').toLowerCase();
+        const itemText = item.innerText.toLowerCase();
+
+        const matchesCategory = (activeCategory === 'all') || itemCategories.includes(activeCategory);
+        const matchesSearch = !searchQuery || itemSearch.includes(searchQuery) || itemText.includes(searchQuery);
+
+        if (matchesCategory && matchesSearch) {
+          item.style.display = '';
+          secVisible++;
+          totalVisible++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Show section only if it has visible items
+      if (secVisible > 0) {
+        sec.style.display = 'block';
+      } else {
+        sec.style.display = 'none';
+      }
+    });
+
+    // Also toggle featured bento card if searching or filtering non-converter category
+    const featuredBento = document.querySelector('.featured-bento-section') as HTMLElement | null;
+    if (featuredBento) {
+      if (activeCategory === 'repair' || activeCategory === 'banks' || (searchQuery && !searchQuery.includes('csv') && !searchQuery.includes('qbo'))) {
+        featuredBento.style.display = 'none';
+      } else {
+        featuredBento.style.display = 'block';
+      }
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      applyFilters();
+    });
+  }
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeCategory = pill.getAttribute('data-category') || 'all';
+
+      applyFilters();
+
+      // Smooth scroll directly to corresponding section
+      if (activeCategory === 'converters') {
+        document.getElementById('converters')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (activeCategory === 'repair') {
+        document.getElementById('repair')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (activeCategory === 'banks') {
+        document.getElementById('banks')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>

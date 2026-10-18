@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy — 100% Client-Side Protection — FinFormat"
+  description="FinFormat privacy policy: 100% client-side execution, zero server uploads, zero data collection, zero cookies, and zero financial telemetry."
+  canonicalPath="/privacy"
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 72px;">
+    
+    <section style="margin-bottom: 32px;">
+      <span class="badge-lime" style="margin-bottom: 12px; display: inline-flex;">PRIVACY GUARANTEE</span>
+      <h1 class="display-lg" style="max-width: 900px; margin-bottom: 16px;">
+        Privacy Policy
+      </h1>
+      <p class="body-lg" style="max-width: 780px; color: #404040;">
+        Effective Date: October 2026. FinFormat is built on a simple premise: your financial records should never be transmitted over the internet to a converter service.
+      </p>
+    </section>
+
+    <div class="bezel-tray">
+      <div class="bezel-core" style="display: flex; flex-direction: column; gap: 24px;">
+        <div>
+          <h2 class="card-title" style="margin-bottom: 8px;">1. Zero Server Uploads</h2>
+          <p class="body" style="color: #404040;">
+            FinFormat is a static web application hosted on Cloudflare Pages. When you use any converter, your bank statements, transaction rows, account numbers, and payee details are processed 100% locally in your web browser's RAM memory. At no point is any file or transaction data sent to our servers or any third-party server.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="card-title" style="margin-bottom: 8px;">2. Zero Data Storage or Persistence</h2>
+          <p class="body" style="color: #404040;">
+            We do not store, cache, or save your financial data. We do not use cookies, HTML5 local storage, session storage, or IndexedDB to record your transactions. When you close or refresh your browser tab, all loaded transactions in memory are immediately destroyed.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="card-title" style="margin-bottom: 8px;">3. Zero Tracking & Telemetry</h2>
+          <p class="body" style="color: #404040;">
+            We do not employ third-party analytics trackers, session replay tools, fingerprinting scripts, or advertising pixels. Your IP address is not logged against your conversion activity.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="card-title" style="margin-bottom: 8px;">4. Offline Execution</h2>
+          <p class="body" style="color: #404040;">
+            FinFormat functions completely offline. Once the web page assets are loaded in your browser, you may disconnect your computer from the internet and convert files with complete privacy.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

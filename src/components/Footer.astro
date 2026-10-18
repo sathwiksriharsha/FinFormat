@@ -1,0 +1,144 @@
+---
+import { SITE } from '../config/site';
+
+const coreConverters = [
+  { label: 'CSV to QBO', href: '/csv-to-qbo' },
+  { label: 'QBO to CSV', href: '/qbo-to-csv' },
+  { label: 'CSV to IIF', href: '/csv-to-iif' },
+  { label: 'QBO to IIF', href: '/qbo-to-iif' },
+  { label: 'OFX to CSV', href: '/ofx-to-csv' },
+  { label: 'CSV to OFX', href: '/csv-to-ofx' },
+  { label: 'QFX to CSV', href: '/qfx-to-csv' },
+  { label: 'CSV to QIF', href: '/csv-to-qif' },
+  { label: 'QIF to CSV', href: '/qif-to-csv' },
+  { label: 'MT940 to CSV', href: '/mt940-to-csv' },
+  { label: 'CAMT.053 to CSV', href: '/camt053-to-csv' }
+];
+
+const repairTools = [
+  { label: 'Fix QuickBooks Error OL-222', href: '/fix-quickbooks-ol-222-error' },
+  { label: 'Fix QuickBooks Error OL-301', href: '/fix-quickbooks-ol-301-error' },
+  { label: 'INTU.BID Bank ID Directory', href: '/intu-bid-lookup' },
+  { label: 'Batch Merge Statements (FITID Dedup)', href: '/merge-qbo-ofx-files' },
+  { label: 'Credit Card Sign Flipper', href: '/credit-card-csv-sign-flipper' },
+  { label: 'QuickBooks CSV Formatter', href: '/quickbooks-csv-formatter' },
+  { label: 'Xero CSV Formatter', href: '/xero-csv-formatter' }
+];
+
+const bankPresets = [
+  { label: 'Chase CSV to QBO (10898)', href: '/banks/chase-csv-to-qbo' },
+  { label: 'Amex CSV to QBO (3101)', href: '/banks/american-express-csv-to-qbo' },
+  { label: 'Bank of America to QBO (6812)', href: '/banks/bank-of-america-csv-to-qbo' },
+  { label: 'Wells Fargo to QBO (3000)', href: '/banks/wells-fargo-csv-to-qbo' },
+  { label: 'Capital One to QBO (12368)', href: '/banks/capital-one-csv-to-qbo' },
+  { label: 'Citi CSV to QBO (54103)', href: '/banks/citi-csv-to-qbo' },
+  { label: 'Mercury Bank to QBO', href: '/banks/mercury-bank-csv-to-qbo' },
+  { label: 'Stripe CSV to QuickBooks', href: '/banks/stripe-csv-to-quickbooks' },
+  { label: 'PayPal to QuickBooks', href: '/banks/paypal-csv-to-quickbooks' }
+];
+---
+
+<footer style="background-color: var(--color-inverse-canvas); color: var(--color-inverse-ink); padding-top: clamp(40px, 5vw, 72px); padding-bottom: clamp(36px, 5vw, 56px); margin-top: auto;" role="contentinfo">
+  <div class="site-container">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 32px; margin-bottom: 48px;">
+      <!-- Brand & Mission Column -->
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect width="48" height="48" rx="12" fill="#FFFFFF"/>
+            <rect x="10" y="12" width="28" height="5" rx="2.5" fill="#000000"/>
+            <rect x="10" y="21" width="18" height="5" rx="2.5" fill="#1ea64a"/>
+            <rect x="10" y="30" width="24" height="5" rx="2.5" fill="#000000"/>
+          </svg>
+          <span style="font-size: 22px; font-weight: 700; color: #FFFFFF;">FinFormat</span>
+        </div>
+        <p class="body-sm" style="color: #A3A3A3; margin-bottom: 20px; line-height: 1.6;">
+          Private, 100% client-side financial statement and accounting file conversion suite. Every row parses in browser RAM with zero server tracking.
+        </p>
+        <div class="badge-lime" style="font-size: 11px;">
+          100% OFFLINE CAPABLE
+        </div>
+      </div>
+
+      <!-- Core Converters -->
+      <div>
+        <p class="eyebrow" style="color: #A3A3A3; margin-bottom: 16px;">Format Converters</p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+          {coreConverters.map(link => (
+            <li>
+              <a href={link.href} class="footer-link">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Repair & Utilities -->
+      <div>
+        <p class="eyebrow" style="color: #A3A3A3; margin-bottom: 16px;">Repair & Diagnostics</p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+          {repairTools.map(link => (
+            <li>
+              <a href={link.href} class="footer-link">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- US Bank Presets & Legal -->
+      <div>
+        <p class="eyebrow" style="color: #A3A3A3; margin-bottom: 16px;">Popular Bank Presets</p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px;">
+          {bankPresets.map(link => (
+            <li>
+              <a href={link.href} class="footer-link">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+
+        <p class="eyebrow" style="color: #A3A3A3; margin-bottom: 12px;">Trust & Legal</p>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="/security-privacy" class="footer-link">Security</a>
+          <a href="/documentation" class="footer-link">Docs</a>
+          <a href="/privacy" class="footer-link">Privacy</a>
+          <a href="/terms" class="footer-link">Terms</a>
+          <a href="/about" class="footer-link">About</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider & Trademark Disclaimer -->
+    <div style="border-top: 1px solid #262626; padding-top: 32px; display: flex; flex-direction: column; gap: 16px;">
+      <p class="caption" style="color: #737373; line-height: 1.6;">
+        {SITE.disclaimer}
+      </p>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <span class="caption" style="color: #525252;">© {new Date().getFullYear()} FinFormat. Built for US small businesses, CPAs, and bookkeepers.</span>
+        <span class="caption" style="color: #525252;">Zero cookies · Zero analytics tracking · Pure client-side execution</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-link {
+    color: #D4D4D4;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 330;
+    transition: color 140ms ease;
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 4px 0;
+  }
+  .footer-link:hover {
+    color: var(--color-block-lime);
+  }
+  @media (max-width: 640px) {
+    .footer-link {
+      min-height: 44px;
+      padding: 6px 0;
+      font-size: 15px;
+    }
+  }
+</style>

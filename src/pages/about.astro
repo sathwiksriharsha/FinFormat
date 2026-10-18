@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About FinFormat — Independent Client-Side Financial Engineering"
+  description="About FinFormat, an independent client-side financial software suite engineered for US CPAs, bookkeepers, and small businesses."
+  canonicalPath="/about"
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 72px;">
+    
+    <section style="margin-bottom: 32px;">
+      <span class="badge-lime" style="margin-bottom: 12px; display: inline-flex;">INDEPENDENT UTILITY</span>
+      <h1 class="display-lg" style="max-width: 900px; margin-bottom: 16px;">
+        About FinFormat
+      </h1>
+      <p class="body-lg" style="max-width: 780px; color: #404040;">
+        FinFormat was created to solve a persistent frustration in American small business accounting: banks export messy spreadsheets, accounting systems lock users out with format errors, and legacy converter tools charge exorbitant monthly subscriptions for basic file transformations.
+      </p>
+    </section>
+
+    <div class="bezel-tray" style="margin-bottom: 40px;">
+      <div class="bezel-core">
+        <h2 class="card-title" style="margin-bottom: 12px;">Our Guiding Engineering Principles</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 20px;">
+          <div>
+            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">Zero Server Telemetry</h3>
+            <p class="body-sm" style="color: #525252;">
+              Financial data belongs to the business owner, not our servers. Everything parses client-side in your browser's local RAM.
+            </p>
+          </div>
+          <div>
+            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">Strict Spec Compliance</h3>
+            <p class="body-sm" style="color: #525252;">
+              From balanced double-entry IIF math to 32-character OL-222 sanitization, we adhere to exact banking format specifications.
+            </p>
+          </div>
+          <div>
+            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">No Artificial Limits</h3>
+            <p class="body-sm" style="color: #525252;">
+              No 3-file daily caps, no row limits, and no registration walls. FinFormat is designed for fast, frictionless utility.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

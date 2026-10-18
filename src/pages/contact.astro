@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact & Support — FinFormat"
+  description="Get in touch with the FinFormat engineering team for bank preset requests, bug reports, and formatting questions."
+  canonicalPath="/contact"
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 72px;">
+    
+    <section style="margin-bottom: 32px;">
+      <span class="badge-lime" style="margin-bottom: 12px; display: inline-flex;">COMMUNITY & SUPPORT</span>
+      <h1 class="display-lg" style="max-width: 900px; margin-bottom: 16px;">
+        Contact the FinFormat Team
+      </h1>
+      <p class="body-lg" style="max-width: 780px; color: #404040;">
+        Have a question about a specific bank's CSV export or need a custom format preset added? We welcome feedback and new institution requests.
+      </p>
+    </section>
+
+    <div class="bezel-tray" style="max-width: 680px;">
+      <div class="bezel-core">
+        <h2 class="card-title" style="margin-bottom: 16px;">Support Inquiries</h2>
+        <p class="body" style="color: #404040; margin-bottom: 24px;">
+          Because FinFormat operates with zero servers and zero user accounts, the fastest way to get support or request a new bank preset is via email or our GitHub issues board.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="padding: 16px; background-color: var(--color-surface-soft); border-radius: var(--rounded-md); border: 1px solid var(--color-hairline);">
+            <p class="eyebrow" style="color: #737373; margin-bottom: 4px;">General Support & Inquiries</p>
+            <p style="font-size: 16px; font-weight: 600;">
+              <a href="mailto:support@finformat.pages.dev" style="color: var(--color-ink); text-decoration: underline; word-break: break-all;">support@finformat.pages.dev</a>
+            </p>
+          </div>
+
+          <div style="padding: 16px; background-color: var(--color-surface-soft); border-radius: var(--rounded-md); border: 1px solid var(--color-hairline);">
+            <p class="eyebrow" style="color: #737373; margin-bottom: 4px;">Bank Preset Requests</p>
+            <p class="body-sm" style="color: #525252;">
+              Include your bank or credit union name and a sanitized sample CSV header. We typically add new institution presets within 24–48 hours.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

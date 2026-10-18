@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Security Architecture & Privacy Verification — FinFormat"
+  description="How FinFormat protects your financial statements using 100% client-side browser RAM execution. Zero server uploads, zero persistence, and offline verification guide."
+  canonicalPath="/security-privacy"
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 72px;">
+    
+    <section style="margin-bottom: 36px;">
+      <span class="badge-lime" style="margin-bottom: 12px; display: inline-flex;">INDEPENDENT SECURITY VERIFICATION</span>
+      <h1 class="display-lg" style="max-width: 920px; margin-bottom: 16px;">
+        Zero cloud uploads. Zero persistence.
+      </h1>
+      <p class="body-lg" style="max-width: 780px; color: #404040;">
+        Bank statements contain sensitive financial information: routing numbers, full account numbers, payee descriptions, and cash balances. Here is the mathematical and architectural proof that your files never leave your computer.
+      </p>
+    </section>
+
+    <!-- Color Block: 3 Pillars of Security -->
+    <section class="color-block-section color-block-navy">
+      <div style="max-width: 880px;">
+        <span class="eyebrow" style="color: var(--color-block-lime); margin-bottom: 12px; display: inline-block;">Architectural Guarantees</span>
+        <h2 class="display-lg" style="margin-bottom: 24px; color: #FFFFFF;">
+          How client-side execution protects your data
+        </h2>
+
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div style="background-color: rgba(255, 255, 255, 0.08); padding: 24px; border-radius: var(--rounded-md); border-left: 3px solid var(--color-block-lime);">
+            <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">1. 100% In-Memory Processing (Browser RAM)</h3>
+            <p class="body-sm" style="color: #CBD5E1; line-height: 1.6;">
+              When you drop a file onto FinFormat, your browser’s FileReader API reads the file directly into local JavaScript memory (RAM). The parsers, sanitizers, and file generators execute locally. Closing the browser tab instantly deallocates all memory.
+            </p>
+          </div>
+
+          <div style="background-color: rgba(255, 255, 255, 0.08); padding: 24px; border-radius: var(--rounded-md); border-left: 3px solid var(--color-block-lime);">
+            <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">2. Zero Cloud Endpoints or Telemetry</h3>
+            <p class="body-sm" style="color: #CBD5E1; line-height: 1.6;">
+              FinFormat has no backend database, no upload servers, no cloud storage buckets, and zero analytics scripts. We do not track your IP address, your company name, or your financial numbers.
+            </p>
+          </div>
+
+          <div style="background-color: rgba(255, 255, 255, 0.08); padding: 24px; border-radius: var(--rounded-md); border-left: 3px solid var(--color-block-lime);">
+            <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">3. Zero Local Storage Persistence</h3>
+            <p class="body-sm" style="color: #CBD5E1; line-height: 1.6;">
+              We never write transaction rows to localStorage, sessionStorage, IndexedDB, cookies, or URL query parameters. Your financial records are never saved to your browser's persistent disk cache.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Color Block: DevTools Verification Guide -->
+    <section class="color-block-section color-block-lime" style="margin-top: 40px;">
+      <div style="max-width: 860px;">
+        <span class="eyebrow" style="color: #2b542c; margin-bottom: 12px; display: inline-block;">Audit It Yourself</span>
+        <h2 class="display-lg" style="margin-bottom: 16px;">
+          How to verify our zero-upload guarantee in 30 seconds
+        </h2>
+        <p class="body" style="margin-bottom: 24px; color: #173819;">
+          Don’t take our word for it. Open your web browser’s developer tools and verify the network traffic yourself:
+        </p>
+
+        <ol style="list-style: decimal; padding-left: 20px; display: flex; flex-direction: column; gap: 14px; font-size: 16px;">
+          <li>Open FinFormat in Google Chrome, Microsoft Edge, Mozilla Firefox, or Apple Safari.</li>
+          <li>Right-click anywhere on the page and select <strong>Inspect</strong>, then switch to the <strong>Network</strong> tab.</li>
+          <li>Check the "Preserve log" box and filter by <strong>Fetch/XHR</strong>.</li>
+          <li>Drop your bank statement file into FinFormat and click <strong>Download Ready File</strong>.</li>
+          <li>Notice: <strong>Zero network requests are sent</strong>. The counter remains at zero.</li>
+          <li>Or simply disconnect your computer from the internet (Airplane Mode): the entire converter functions completely offline!</li>
+        </ol>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

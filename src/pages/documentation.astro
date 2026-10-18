@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FormatMatrixGrid from '../components/FormatMatrixGrid.astro';
+---
+
+<BaseLayout
+  title="Accounting File Format Specifications & Technical Docs — FinFormat"
+  description="Technical documentation and specifications for QuickBooks QBO (OFX 1.02 SGML), QuickBooks Desktop IIF, Quicken QIF, SWIFT MT940, and ISO 20022 CAMT.053."
+  canonicalPath="/documentation"
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 72px;">
+    
+    <section style="margin-bottom: 36px;">
+      <span class="badge-lime" style="margin-bottom: 12px; display: inline-flex;">TECHNICAL SPECIFICATIONS</span>
+      <h1 class="display-lg" style="max-width: 900px; margin-bottom: 14px;">
+        Accounting File Format Specifications
+      </h1>
+      <p class="body-lg" style="max-width: 780px; color: #404040;">
+        Engineering reference for Intuit Interchange Format (.IIF), Open Financial Exchange (.OFX / .QBO), Quicken Interchange (.QIF), and SWIFT MT940 standards.
+      </p>
+    </section>
+
+    <!-- OFX 1.02 SGML Spec -->
+    <div class="bezel-tray" style="margin-bottom: 32px;">
+      <div class="bezel-core">
+        <h2 class="headline" style="margin-bottom: 10px;">1. QuickBooks Web Connect (.QBO) & OFX 1.02 SGML</h2>
+        <p class="body" style="color: #404040; margin-bottom: 16px;">
+          QuickBooks Web Connect (.QBO) is based on the 1997 OFX 1.02 SGML specification. Key implementation requirements:
+        </p>
+        <ul style="list-style: disc; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; margin-bottom: 16px;">
+          <li><strong>CRLF Line Endings:</strong> All lines must terminate in <code>\r\n</code>. Unix <code>\n</code> causes import errors on QuickBooks Desktop.</li>
+          <li><strong>Header Blank Line:</strong> A mandatory blank line (<code>\r\n\r\n</code>) must separate the OFXHEADER metadata block from the opening <code>&lt;OFX&gt;</code> tag.</li>
+          <li><strong>Unclosed SGML Value Tags:</strong> Value tags like <code>&lt;TRNAMT&gt;-45.99</code> do not have closing tags. Closing tags (e.g., <code>&lt;/TRNAMT&gt;</code>) are only used in OFX 2.x XML.</li>
+          <li><strong>Payee Field Capping:</strong> <code>&lt;NAME&gt;</code> is strictly limited to 32 characters. Any payee text beyond 32 characters triggers Error OL-222 unless moved to <code>&lt;MEMO&gt;</code>.</li>
+          <li><strong>Mandatory Ledger Balance:</strong> The <code>&lt;LEDGERBAL&gt;&lt;BALAMT&gt;0.00&lt;DTASOF&gt;...</code> block is required inside statement responses.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- IIF Spec -->
+    <div class="bezel-tray" style="margin-bottom: 32px;">
+      <div class="bezel-core">
+        <h2 class="headline" style="margin-bottom: 10px;">2. QuickBooks Desktop Interchange Format (.IIF)</h2>
+        <p class="body" style="color: #404040; margin-bottom: 16px;">
+          QuickBooks Desktop (.IIF) uses a tab-delimited double-entry ledger structure:
+        </p>
+        <ul style="list-style: disc; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; margin-bottom: 16px;">
+          <li><strong>Tab Delimiters:</strong> Fields must be delimited with literal tab characters (<code>\t</code>).</li>
+          <li><strong>Double-Entry Balance:</strong> Every transaction starts with a <code>TRNS</code> line posting to the main bank/credit card account, followed by one or more <code>SPL</code> lines posting equal and opposite amounts to offset accounts, terminated with <code>ENDTRNS</code>.</li>
+          <li><strong>Mathematical Balance:</strong> The sum of <code>TRNS.AMOUNT + SPL.AMOUNT</code> must equal <code>0.00</code>.</li>
+          <li><strong>Perpetual Compatibility:</strong> Supported across all versions of QuickBooks Desktop (Pro, Premier, Enterprise) without requiring an Intuit Web Connect subscription.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- QIF Spec -->
+    <div class="bezel-tray" style="margin-bottom: 48px;">
+      <div class="bezel-core">
+        <h2 class="headline" style="margin-bottom: 10px;">3. Quicken Interchange Format (.QIF)</h2>
+        <p class="body" style="color: #404040; margin-bottom: 16px;">
+          Legacy format developed by Intuit for Quicken exports. Line codes:
+        </p>
+        <ul style="list-style: disc; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 15px;">
+          <li><code>!Type:Bank</code> or <code>!Type:CCard</code> starts the register definition.</li>
+          <li><code>D</code>: Date (MM/DD/YYYY).</li>
+          <li><code>T</code>: Amount signed (+ for deposit, - for charge).</li>
+          <li><code>P</code>: Payee or Description.</li>
+          <li><code>M</code>: Memo details.</li>
+          <li><code>N</code>: Check number or document reference.</li>
+          <li><code>^</code>: Standalone record terminator closing the transaction block.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Converters & Repair Matrix -->
+    <FormatMatrixGrid currentSlug="documentation" />
+
+  </div>
+</BaseLayout>
+

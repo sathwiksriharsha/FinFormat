@@ -1,0 +1,3 @@
+﻿Payout Date,Payout ID,Gross Sales,Refunds,Fees,Net Payout,Currency
+2026-01-05,shop_test_001,1300.00,-25.00,-25.00,1250.00,USD
+2026-01-08,shop_test_002,975.00,-10.00,-15.00,950.00,USD

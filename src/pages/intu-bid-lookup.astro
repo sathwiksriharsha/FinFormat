@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IntuBidLookupTable from '../components/IntuBidLookupTable.astro';
+import ConverterWorkspace from '../components/ConverterWorkspace.astro';
+import FormatMatrixGrid from '../components/FormatMatrixGrid.astro';
+---
+
+<BaseLayout
+  title="Intuit Bank ID (INTU.BID) Lookup Directory — FinFormat"
+  description="Search 60+ verified Intuit Bank ID (INTU.BID) codes for QuickBooks Online and Desktop Web Connect. Patch corrupt FID headers and fix Error OL-301."
+  canonicalPath="/intu-bid-lookup"
+>
+  <div class="site-container" style="padding-top: clamp(40px, 5vw, 64px); padding-bottom: 60px;">
+    
+    <section style="margin-bottom: 24px;">
+      <span class="badge-lime" style="margin-bottom: 12px; display: inline-flex;">REFERENCE DIRECTORY & HEADER PATCHER</span>
+      <h1 class="display-lg" style="max-width: 900px; margin-bottom: 14px;">
+        Intuit Bank ID (INTU.BID) Directory
+      </h1>
+      <p class="body-lg" style="max-width: 780px; color: #404040;">
+        Look up official Intuit Financial Institution IDs (FIDs) required for QuickBooks Web Connect (.QBO) import. Fix Error OL-301 and OL-393 by patching unsupported bank codes with universal fallbacks.
+      </p>
+    </section>
+
+    <!-- Searchable Directory Table -->
+    <IntuBidLookupTable />
+
+    <!-- 1-Click Header Patcher Workspace -->
+    <div style="margin-top: 48px;">
+      <h2 class="display-lg" style="margin-bottom: 8px;">1-Click INTU.BID Header Patcher</h2>
+      <p class="body" style="color: #525252; margin-bottom: 20px;">
+        Drop your existing .QBO file below to automatically replace an unrecognized bank FID with FID 3000 (Wells Fargo Universal Fallback) or your chosen bank ID.
+      </p>
+
+      <ConverterWorkspace 
+        initialSource="QBO"
+        initialTarget="QBO"
+        presetSlug="intu-bid-lookup"
+        isRepairPage={true}
+      />
+    </div>
+
+    <!-- Converter & Repair Matrix -->
+    <FormatMatrixGrid currentSlug="intu-bid-lookup" />
+
+  </div>
+</BaseLayout>
+

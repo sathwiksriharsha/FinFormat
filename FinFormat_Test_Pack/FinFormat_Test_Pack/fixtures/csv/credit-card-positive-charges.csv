@@ -1,0 +1,5 @@
+﻿Date,Description,Amount,Transaction Type
+2026-02-01,Office supplies,49.99,Charge
+2026-02-02,Cloud subscription,125.00,Charge
+2026-02-03,Payment received,-200.00,Payment
+2026-02-04,Merchant refund,-12.50,Refund

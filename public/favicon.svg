@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <rect width="48" height="48" rx="12" fill="#000000"/>
+  <!-- Top bar (white ledger bar) -->
+  <rect x="10" y="12" width="28" height="5" rx="2.5" fill="#FFFFFF"/>
+  <!-- Middle bar (transform/offset in lime) -->
+  <rect x="10" y="21" width="18" height="5" rx="2.5" fill="#DCEEB1"/>
+  <!-- Bottom bar (ledger balance) -->
+  <rect x="10" y="30" width="24" height="5" rx="2.5" fill="#FFFFFF"/>
+  <!-- Precision dot / transformation node -->
+  <circle cx="34" cy="23.5" r="3.5" fill="#DCEEB1"/>
+</svg>

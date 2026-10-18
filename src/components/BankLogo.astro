@@ -1,0 +1,349 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+// Determine bank key from slug
+function getBankKey(s: string) {
+  if (s.includes('chase')) return 'chase';
+  if (s.includes('bank-of-america')) return 'bofa';
+  if (s.includes('wells-fargo')) return 'wells-fargo';
+  if (s.includes('american-express')) return 'amex';
+  if (s.includes('capital-one')) return 'capital-one';
+  if (s.includes('citi')) return 'citi';
+  if (s.includes('us-bank')) return 'us-bank';
+  if (s.includes('pnc-bank')) return 'pnc';
+  if (s.includes('truist')) return 'truist';
+  if (s.includes('td-bank')) return 'td';
+  if (s.includes('navy-federal')) return 'navy-federal';
+  if (s.includes('usaa')) return 'usaa';
+  if (s.includes('discover-card')) return 'discover';
+  if (s.includes('charles-schwab')) return 'schwab';
+  if (s.includes('fidelity')) return 'fidelity';
+  if (s.includes('huntington-bank')) return 'huntington';
+  if (s.includes('regions-bank')) return 'regions';
+  if (s.includes('citizens-bank')) return 'citizens';
+  if (s.includes('fifth-third-bank')) return 'fifth-third';
+  if (s.includes('keybank')) return 'keybank';
+  if (s.includes('m-and-t-bank')) return 'mt-bank';
+  if (s.includes('ally-bank')) return 'ally';
+  if (s.includes('bmo-us')) return 'bmo';
+  if (s.includes('first-citizens-bank')) return 'first-citizens';
+  if (s.includes('mercury-bank')) return 'mercury';
+  if (s.includes('relay-financial')) return 'relay';
+  if (s.includes('brex')) return 'brex';
+  if (s.includes('ramp')) return 'ramp';
+  if (s.includes('stripe')) return 'stripe';
+  if (s.includes('paypal')) return 'paypal';
+  if (s.includes('square')) return 'square';
+  if (s.includes('shopify')) return 'shopify';
+  if (s.includes('venmo')) return 'venmo';
+  if (s.includes('cash-app')) return 'cash-app';
+  if (s.includes('wise')) return 'wise';
+  return 'default';
+}
+
+const key = getBankKey(slug);
+---
+
+<div class="bank-logo-box" data-bank={key}>
+  {key === 'chase' && (
+    <div style="background-color: #117ACA; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M4 10.5V5.5L9 4V9L4 10.5Z" fill="#FFFFFF"/>
+        <path d="M13.5 4H18.5L20 9H15L13.5 4Z" fill="#FFFFFF"/>
+        <path d="M20 13.5V18.5L15 20V15L20 13.5Z" fill="#FFFFFF"/>
+        <path d="M10.5 20H5.5L4 15H9L10.5 20Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'bofa' && (
+    <div style="background-color: #E31837; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="15" viewBox="0 0 24 18" fill="none">
+        <rect x="2" y="2" width="9" height="3" rx="1" fill="#FFFFFF"/>
+        <rect x="2" y="7.5" width="9" height="3" rx="1" fill="#FFFFFF"/>
+        <rect x="2" y="13" width="9" height="3" rx="1" fill="#FFFFFF"/>
+        <rect x="13" y="2" width="9" height="3" rx="1" fill="#002D72"/>
+        <rect x="13" y="7.5" width="9" height="3" rx="1" fill="#002D72"/>
+        <rect x="13" y="13" width="9" height="3" rx="1" fill="#002D72"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'wells-fargo' && (
+    <div style="background-color: #D71E28; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 13px; font-weight: 900; color: #FFFFFF; font-family: serif; letter-spacing: -0.5px;">WF</span>
+    </div>
+  )}
+
+  {key === 'amex' && (
+    <div style="background-color: #006FCF; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 10px; font-weight: 900; color: #FFFFFF; font-family: sans-serif; letter-spacing: 0.6px;">AMEX</span>
+    </div>
+  )}
+
+  {key === 'capital-one' && (
+    <div style="background-color: #004879; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <text x="3" y="16" font-size="12" font-weight="900" fill="#FFFFFF" font-family="sans-serif">C1</text>
+        <path d="M6 6C13 5 18 8 20 13" stroke="#D03027" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'citi' && (
+    <div style="background-color: #003B70; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <text x="3" y="16" font-size="11" font-weight="800" fill="#FFFFFF" font-family="sans-serif">citi</text>
+        <path d="M8 8C11 5 15 5 18 8" stroke="#ED1C24" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'us-bank' && (
+    <div style="background-color: #0C2074; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4 5V11C4 16.5 7.5 21 12 22C16.5 21 20 16.5 20 11V5L12 2Z" fill="#D71E28"/>
+        <text x="6" y="15" font-size="10" font-weight="900" fill="#FFFFFF" font-family="sans-serif">us</text>
+      </svg>
+    </div>
+  )}
+
+  {key === 'pnc' && (
+    <div style="background-color: #F26522; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 11px; font-weight: 900; color: #FFFFFF; font-family: sans-serif; letter-spacing: 0.5px;">PNC</span>
+    </div>
+  )}
+
+  {key === 'truist' && (
+    <div style="background-color: #241134; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="5" width="16" height="4" rx="1" fill="#FFFFFF"/>
+        <rect x="10" y="5" width="4" height="14" rx="1" fill="#FFFFFF"/>
+        <rect x="6" y="10" width="12" height="3" rx="1" fill="#9353D3"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'td' && (
+    <div style="background-color: #008A00; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 13px; font-weight: 900; color: #FFFFFF; font-family: sans-serif;">TD</span>
+    </div>
+  )}
+
+  {key === 'navy-federal' && (
+    <div style="background-color: #002D62; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="5" r="3"/>
+        <line x1="12" y1="8" x2="12" y2="20"/>
+        <path d="M5 12H19"/>
+        <path d="M5 15C5 18 8 20 12 20C16 20 19 18 19 15"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'usaa' && (
+    <div style="background-color: #0C2340; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 10px; font-weight: 900; color: #FFFFFF; font-family: sans-serif; letter-spacing: 0.8px;">USAA</span>
+    </div>
+  )}
+
+  {key === 'discover' && (
+    <div style="background-color: #FF6600; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9" fill="#FFFFFF"/>
+        <circle cx="12" cy="12" r="5" fill="#FF6600"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'schwab' && (
+    <div style="background-color: #00A3E0; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="6" width="3.5" height="12" rx="1.5" fill="#FFFFFF"/>
+        <rect x="10.2" y="3" width="3.5" height="15" rx="1.5" fill="#FFFFFF"/>
+        <rect x="16.5" y="8" width="3.5" height="10" rx="1.5" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'fidelity' && (
+    <div style="background-color: #417430; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <polygon points="12,3 3,19 21,19" fill="#FFFFFF"/>
+        <polygon points="12,7 6,17 18,17" fill="#417430"/>
+        <circle cx="12" cy="13.5" r="2.2" fill="#E8B923"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'huntington' && (
+    <div style="background-color: #5A9E32; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <polygon points="12,2 20,7 20,17 12,22 4,17 4,7" stroke="#FFFFFF" stroke-width="2.2" fill="none"/>
+        <text x="8" y="16" font-size="11" font-weight="900" fill="#FFFFFF" font-family="sans-serif">H</text>
+      </svg>
+    </div>
+  )}
+
+  {key === 'regions' && (
+    <div style="background-color: #548235; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 14px; font-weight: 900; color: #FFFFFF; font-family: serif;">R</span>
+    </div>
+  )}
+
+  {key === 'citizens' && (
+    <div style="background-color: #008559; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 11px; font-weight: 900; color: #FFFFFF; font-family: sans-serif; letter-spacing: -0.5px;">CIT</span>
+    </div>
+  )}
+
+  {key === 'fifth-third' && (
+    <div style="background-color: #002D62; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 11px; font-weight: 900; color: #FFFFFF; font-family: sans-serif;">5/3</span>
+    </div>
+  )}
+
+  {key === 'keybank' && (
+    <div style="background-color: #BA0C2F; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="12" r="5"/>
+        <line x1="13" y1="12" x2="21" y2="12"/>
+        <line x1="17" y1="12" x2="17" y2="16"/>
+        <line x1="20" y1="12" x2="20" y2="15"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'mt-bank' && (
+    <div style="background-color: #007853; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 11px; font-weight: 900; color: #FFFFFF; font-family: sans-serif;">M&amp;T</span>
+    </div>
+  )}
+
+  {key === 'ally' && (
+    <div style="background-color: #52237F; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 12px; font-weight: 900; color: #FFFFFF; font-family: sans-serif; font-style: italic;">ally</span>
+    </div>
+  )}
+
+  {key === 'bmo' && (
+    <div style="background-color: #0079C1; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9" fill="#FFFFFF"/>
+        <circle cx="12" cy="12" r="4.5" fill="#ED1B2D"/>
+        <text x="3.5" y="15" font-size="7" font-weight="900" fill="#0079C1" font-family="sans-serif">BMO</text>
+      </svg>
+    </div>
+  )}
+
+  {key === 'first-citizens' && (
+    <div style="background-color: #003366; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 11px; font-weight: 900; color: #FFFFFF; font-family: sans-serif;">FCB</span>
+    </div>
+  )}
+
+  {key === 'mercury' && (
+    <div style="background-color: #1E1E24; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <ellipse cx="12" cy="12" rx="9" ry="4" stroke="#FFFFFF" stroke-width="1.8" transform="rotate(-30 12 12)"/>
+        <circle cx="12" cy="12" r="3.5" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'relay' && (
+    <div style="background-color: #0D47A1; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="7 17 12 12 7 7"/>
+        <polyline points="13 17 18 12 13 7"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'brex' && (
+    <div style="background-color: #FF5938; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M6 4H13C15.8 4 18 6.2 18 9C18 11.2 16.5 13 14.5 13.7C17 14.5 18.5 16.5 18.5 19C18.5 21.8 16.2 24 13.5 24H6V4Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'ramp' && (
+    <div style="background-color: #1E1E1E; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <polygon points="5,19 19,5 19,19" fill="#E2F952"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'stripe' && (
+    <div style="background-color: #635BFF; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M14.5 9.2C14.5 8.3 13.7 7.7 12.3 7.7C10.4 7.7 8.7 8.3 7.5 9.1L6.7 6.4C8.2 5.5 10.4 4.8 12.6 4.8C16.3 4.8 18.6 6.7 18.6 9.8C18.6 14.3 12.5 14 12.5 16.1C12.5 17.2 13.5 17.7 14.9 17.7C16.9 17.7 18.9 16.9 20.3 16L21.1 18.7C19.5 19.8 17.1 20.5 14.7 20.5C10.8 20.5 8.5 18.6 8.5 15.5C8.5 11 14.5 11.3 14.5 9.2Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'paypal' && (
+    <div style="background-color: #003087; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M6 3H14C17 3 19 4.8 18.5 7.8C18 10.5 15.8 12 13 12H9.5L8 21H5L7.5 7H6V3Z" fill="#0079C1"/>
+        <path d="M9 7H17C19.5 7 21 8.8 20.5 11.8C20 14.5 17.8 16 15 16H12L10.5 24H7.5L9.5 11H9V7Z" fill="#FFFFFF" fill-opacity="0.85"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'square' && (
+    <div style="background-color: #000000; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <rect x="3" y="3" width="18" height="18" rx="4" stroke="#FFFFFF" stroke-width="2.5"/>
+        <rect x="8.5" y="8.5" width="7" height="7" rx="1.5" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'shopify' && (
+    <div style="background-color: #95BF47; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M6 7L4 21H20L18 7H6Z" fill="#FFFFFF"/>
+        <path d="M8 7V5C8 3 9.8 1.5 12 1.5C14.2 1.5 16 3 16 5V7" stroke="#95BF47" stroke-width="2" stroke-linecap="round"/>
+        <text x="9" y="16" font-size="8" font-weight="900" fill="#95BF47" font-family="sans-serif">S</text>
+      </svg>
+    </div>
+  )}
+
+  {key === 'venmo' && (
+    <div style="background-color: #008CFF; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M17.5 4L12.5 20H7.5L4 8.5L8.5 8L10.5 15.5L13.5 4H17.5Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'cash-app' && (
+    <div style="background-color: #00D632; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 16px; font-weight: 900; color: #FFFFFF; font-family: sans-serif;">$</span>
+    </div>
+  )}
+
+  {key === 'wise' && (
+    <div style="background-color: #163300; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M6 6L11 18H14L18 6H15L12.5 14L9 6H6Z" fill="#9FE870"/>
+        <polygon points="12,6 18,6 15,11 9,11" fill="#9FE870"/>
+      </svg>
+    </div>
+  )}
+
+  {key === 'default' && (
+    <div style="background-color: #0F172A; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF">
+        <path d="M12 2L3 9v13h18V9l-9-7zm0 3.8L18 10v9H6v-9l6-4.2z"/>
+      </svg>
+    </div>
+  )}
+</div>

@@ -1,0 +1,60 @@
+---
+// Black marquee ribbon directly below top-nav per figma/DESIGN.md
+const tickerItems = [
+  'CHASE (FID 10898)',
+  'AMERICAN EXPRESS (FID 3101)',
+  'BANK OF AMERICA (FID 6812)',
+  'WELLS FARGO (FID 3000)',
+  'CAPITAL ONE (FID 12368)',
+  'CITIBANK (FID 54103)',
+  'MERCURY & RELAY',
+  'STRIPE & PAYPAL FEE SPLITTER',
+  'BALANCED DOUBLE-ENTRY IIF',
+  'QUICKBOOKS ERROR OL-222 REPAIR',
+  '100% CLIENT-SIDE IN BROWSER RAM',
+  'ZERO SERVER UPLOADS',
+  'UNLIMITED ROWS & BATCH MERGE'
+];
+---
+
+<div class="marquee-ribbon" role="region" aria-label="Supported Institutions & Capabilities Ticker">
+  <div class="marquee-content" aria-hidden="true">
+    {tickerItems.map(item => (
+      <span class="eyebrow" style="color: var(--color-inverse-ink); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--color-block-lime);"></span>
+        {item}
+      </span>
+    ))}
+    {tickerItems.map(item => (
+      <span class="eyebrow" style="color: var(--color-inverse-ink); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--color-block-lime);"></span>
+        {item}
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  @media (max-width: 640px) {
+    .marquee-ribbon {
+      height: 32px !important;
+    }
+    .marquee-content {
+      gap: 20px !important;
+      padding-left: 20px !important;
+    }
+    .marquee-content span.eyebrow {
+      font-size: 11px !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-content {
+      animation: none !important;
+    }
+    .marquee-ribbon {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+</style>

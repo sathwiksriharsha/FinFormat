@@ -1,0 +1,6 @@
+﻿Date,Description,Debit,Credit,Check Number,Category,Memo
+2026-01-05,Shopify payout,,1250.00,,Sales Income,Shopify payout Jan 5
+2026-01-06,"Office Depot, #441",84.17,,1041,Office Supplies,"Paper, toner and folders"
+2026-01-07,Stripe processing fee,18.35,,,Bank Fees,Stripe processing fee Jan 7
+2026-01-08,ACME client payment,,950.00,,Sales Income,"Invoice ""1042"" payment"
+2026-01-09,Amazon Web Services,42.99,,,Software,Cloud services

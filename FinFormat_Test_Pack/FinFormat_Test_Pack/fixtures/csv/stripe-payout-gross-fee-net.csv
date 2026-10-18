@@ -1,0 +1,4 @@
+﻿Created Date,Type,Gross,Fee,Net,Payout ID,Description
+2026-01-07,charge,100.00,-3.20,96.80,po_test_001,Customer payment
+2026-01-07,refund,-20.00,0.00,-20.00,po_test_001,Customer refund
+2026-01-07,payout,76.80,0.00,76.80,po_test_002,Payout to bank
