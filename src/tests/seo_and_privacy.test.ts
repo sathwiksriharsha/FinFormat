@@ -211,5 +211,23 @@ describe('FinFormat SEO, Canonical & Privacy Architecture', () => {
     }
   });
 
+  it('guarantees FAQPage Schema.org structured data and visible FAQ accordion on homepage', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+    const distDir = path.resolve(__dirname, '../../dist');
+    if (!fs.existsSync(distDir)) {
+      return;
+    }
+
+    const indexPath = path.join(distDir, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      const indexHtml = fs.readFileSync(indexPath, 'utf-8');
+      expect(indexHtml).toContain('"@type":"FAQPage"');
+      expect(indexHtml).toContain('Can I just rename a CSV file extension to .QBO for QuickBooks?');
+      expect(indexHtml).toContain('id="faq"');
+      expect(indexHtml).toContain('Frequently Asked Questions');
+    }
+  });
+
 });
 

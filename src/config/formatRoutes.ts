@@ -18,9 +18,11 @@ export const FORMAT_ROUTES: FormatRoute[] = [
       'Includes required <LEDGERBAL><BALAMT>0.00 block to prevent import rejection'
     ],
     faq: [
+      { question: 'Can I just rename a .CSV file to .QBO?', answer: 'No. Simply changing the file extension from .csv to .qbo will not work because QuickBooks verifies the internal OFX 1.02 SGML tags, <INTU.BID> bank codes, and <FITID> transaction hashes. FinFormat automatically converts flat spreadsheet columns into valid QuickBooks Web Connect syntax.' },
+      { question: 'How do I import the converted .QBO file into QuickBooks?', answer: 'In QuickBooks Online: go to Transactions / Banking > Upload transactions > select your .QBO file. In QuickBooks Desktop: go to File > Utilities > Import > Web Connect Files, select your .QBO file, and link it to your existing account register.' },
       { question: 'Will this work with QuickBooks Online and QuickBooks Desktop?', answer: 'Yes. FinFormat generates standard Web Connect .QBO files supported by QuickBooks Online (Simple Start, Essentials, Plus, Advanced) and all versions of QuickBooks Desktop (Pro, Premier, Enterprise).' },
       { question: 'What bank FID should I use?', answer: 'FinFormat defaults to 3000 (Wells Fargo), which is universally accepted by all Intuit software regardless of active subscriptions. You can also select your specific bank FID from the dropdown.' },
-      { question: 'Are my financial records uploaded to any server?', answer: 'Never. The entire parsing, sanitization, and QBO generation process runs client-side in your browser RAM. Zero bytes are uploaded.' }
+      { question: 'Are my financial records uploaded to any server?', answer: 'Never. The entire parsing, sanitization, and QBO generation process runs client-side in your browser RAM. Zero bytes are uploaded to remote servers.' }
     ]
   },
   {
@@ -59,8 +61,10 @@ export const FORMAT_ROUTES: FormatRoute[] = [
       'Assigns proper TRNSTYPE (CHECK, DEPOSIT, CREDIT CARD, CCARD REFUND)'
     ],
     faq: [
-      { question: 'Does IIF import require an active QuickBooks subscription?', answer: 'No. QuickBooks Desktop versions (2018–2024+) allow .IIF file imports locally without any Intuit subscription or Web Connect service.' },
-      { question: 'How are the double-entry rows balanced?', answer: 'Each transaction generates a TRNS row posting to your Bank/Credit Card account and an equal-and-opposite SPL row posting to your selected offset account.' }
+      { question: 'How do I import bank transactions into discontinued QuickBooks Desktop without paying for a subscription?', answer: 'When Intuit discontinues support for older QuickBooks Desktop editions, Web Connect .QBO imports are blocked. Converting your CSV statement to balanced .IIF format allows you to import transactions directly via File > Utilities > Import > IIF Files without an active subscription.' },
+      { question: 'Does IIF import require an active QuickBooks subscription?', answer: 'No. QuickBooks Desktop versions (Pro, Premier, Enterprise from 2018–2024+) allow .IIF file imports locally without any Intuit subscription or online banking connection.' },
+      { question: 'How are the double-entry rows balanced?', answer: 'Each transaction generates a TRNS row posting to your Bank/Credit Card account and an equal-and-opposite SPL row posting to your selected offset account (e.g., Ask My Accountant or Uncategorized Expense).' },
+      { question: 'Should I back up my company file before an IIF import?', answer: 'Yes. IIF imports write directly to QuickBooks account registers without a preliminary bank feed staging screen. It is best practice to create a quick QuickBooks backup (.QBB) before importing any batch file.' }
     ]
   },
   {
@@ -406,8 +410,10 @@ export const FORMAT_ROUTES: FormatRoute[] = [
       'Rewrites with valid OFX 1.02 SGML headers and CRLF line breaks'
     ],
     faq: [
-      { question: 'Why does QuickBooks throw Error OL-222?', answer: 'Intuit’s SGML parser is strictly limited: any ampersand (&) or payee name longer than 32 characters causes an instant parse crash.' },
-      { question: 'Do I lose long payee descriptions?', answer: 'No! FinFormat caps <NAME> at 32 characters and automatically preserves the full description in the <MEMO> field.' }
+      { question: 'What does QuickBooks Error OL-222 mean?', answer: 'QuickBooks Error OL-222 indicates that QuickBooks encountered an unreadable character or malformed SGML/OFX syntax while parsing a Web Connect (.QBO) file, causing it to abort the entire import.' },
+      { question: 'What causes Error OL-222 in QuickBooks?', answer: 'The most common triggers are unescaped ampersands (&), illegal SGML tag characters (<, >, :, /), non-ASCII characters, and payee names (<NAME>) longer than Intuit’s 32-character limit.' },
+      { question: 'How do I fix Error OL-222 without paid software?', answer: 'Upload your problematic .QBO file to FinFormat’s 1-click OL-222 Repair Tool. It automatically sanitizes all illegal characters, replaces & with "and", truncates payees to 32 characters, and moves the rest of the text into the memo field without losing data.' },
+      { question: 'Do I lose long payee descriptions when fixing OL-222?', answer: 'No! FinFormat caps <NAME> at 32 characters to satisfy Intuit’s validation parser, while preserving your complete un-truncated description in the <MEMO> tag (which supports up to 255 characters).' }
     ]
   },
   {

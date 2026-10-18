@@ -5,24 +5,36 @@ import BankLogo from '../components/BankLogo.astro';
 
 const faqs = [
   {
-    question: 'How does FinFormat ensure 100% privacy for bank statements?',
-    answer: 'Unlike web converters that upload your bank statements to remote cloud servers, FinFormat runs entirely client-side using JavaScript in your browser tab. Your files, account numbers, and transaction balances never leave your computer.'
+    question: 'Can I just rename a CSV file extension to .QBO for QuickBooks?',
+    answer: 'No. Changing the file extension from .csv to .qbo does not work. QuickBooks strictly verifies the internal OFX 1.02 SGML structure, including <INTU.BID> bank tags, <STMTTRN> blocks, and unique <FITID> transaction identifiers. An unformatted spreadsheet will result in Error OL-222 or "QuickBooks cannot verify the financial institution." FinFormat automatically generates compliant OFX/SGML headers and structure.'
   },
   {
-    question: 'How do I bypass the QuickBooks Desktop Web Connect sunset?',
-    answer: 'When Intuit discontinues an older version of QuickBooks Desktop (2020–2023), Web Connect .QBO imports are disabled. Converting your bank statements to balanced .IIF format allows you to import transactions indefinitely without paying for a subscription.'
+    question: 'How do I import bank transactions into discontinued QuickBooks Desktop without a subscription?',
+    answer: 'When Intuit sunsets an older QuickBooks Desktop version (such as 2020, 2021, 2022, or 2023), it disables Web Connect .QBO bank feeds. However, QuickBooks Desktop retains permanent support for .IIF (Intuit Interchange Format) imports without requiring an active Intuit subscription. Converting your CSV bank statements to balanced double-entry .IIF files allows you to import transactions directly into your register indefinitely for free.'
   },
   {
-    question: 'What causes QuickBooks Error OL-222 and how does FinFormat fix it?',
-    answer: 'QuickBooks Error OL-222 occurs when a .QBO file contains unescaped ampersands (&), illegal SGML characters (< > : /), or payee names exceeding 32 characters. FinFormat automatically sanitizes all illegal characters and truncates payee names while moving overflow descriptions into the memo field.'
+    question: 'What causes QuickBooks Error OL-222 and how do I fix it?',
+    answer: 'QuickBooks Error OL-222 happens when a .QBO Web Connect file contains unescaped ampersands (&), illegal SGML/XML characters (< > : /), invalid date formatting, or payee names exceeding Intuit\'s 32-character limit. FinFormat’s built-in repair engine automatically sanitizes illegal characters, fixes entity escaping, and moves excess payee characters to the memo field so the file imports smoothly.'
   },
   {
-    question: 'Why do American Express charges import as deposits, and how do I fix it?',
-    answer: 'American Express exports charges as positive numbers. In accounting, charges are outflows (negative cash). FinFormat features a 1-click Credit Card Sign Flipper that inverts charges into negative numbers so they import into bank feeds correctly.'
+    question: 'Why do American Express and credit card CSVs import charges as deposits?',
+    answer: 'Many credit card providers (including American Express, Discover, and Capital One) export purchases as positive numbers and payments as negative numbers. Accounting systems like QuickBooks require expenses to be negative (cash outflows). FinFormat features a 1-click Credit Card Sign Flipper that reverses transaction polarities so purchases import as debits and payments import as credits.'
   },
   {
-    question: 'Can I batch merge multiple monthly bank statements into one file?',
-    answer: 'Yes. Drop multiple CSV, QBO, or OFX files into the workbench simultaneously. FinFormat combines them chronologically, deduplicates repeating transactions using unique FITID hashes, and outputs a single unified statement.'
+    question: 'Is it safe to convert bank statements using online tools?',
+    answer: 'Most online file converters upload your confidential bank statements to cloud servers where financial transactions, account numbers, and balances may be stored or analyzed. FinFormat is 100% client-side: all parsing, regex transformations, and file generation run in your browser\'s local memory via WebAssembly and JavaScript. Zero bytes are uploaded to our servers, keeping your company compliant with SOC2, GLBA, and GDPR.'
+  },
+  {
+    question: 'What is INTU.BID and which Bank ID should I choose for QuickBooks?',
+    answer: 'The <INTU.BID> tag is Intuit’s 4-to-5 digit identifier for authorized financial institutions. If your specific bank is not listed by Intuit or has been discontinued, FinFormat defaults to FID 3000 (Wells Fargo) or FID 10898 (Chase). Both are universally recognized by QuickBooks Online and Desktop, allowing you to bypass bank connection blocks.'
+  },
+  {
+    question: 'How do I prevent duplicate transactions when merging multiple months of statements?',
+    answer: 'QuickBooks tracks imported transactions using the unique <FITID> (Financial Institution Transaction ID) tag. FinFormat uses a deterministic hashing algorithm combining the transaction date, exact signed amount, and payee description to generate consistent FITIDs. When you batch convert multiple CSV or OFX statements, duplicate transactions are automatically flagged and excluded.'
+  },
+  {
+    question: 'Can I convert a PDF bank statement into QuickBooks format?',
+    answer: 'QuickBooks cannot import PDF bank statements directly into bank feeds. To import PDF statements, you must first convert the PDF tables into CSV or .QBO format. FinFormat provides in-browser table extraction so you can convert PDF statements without exposing confidential records to remote cloud servers.'
   }
 ];
 ---
@@ -656,6 +668,33 @@ const faqs = [
       </div>
     </section>
 
+    <!-- FAQ Knowledge Base (High Intent Ahrefs & PAA Queries) -->
+    <section class="color-block-section color-block-cream" id="faq" style="margin-top: 48px; margin-bottom: 24px;">
+      <div style="max-width: 900px;">
+        <span class="eyebrow" style="color: #78350F; margin-bottom: 12px; display: inline-block;">Knowledge Base &bull; Accounting Guides</span>
+        <h2 class="display-lg display-serif" style="margin-bottom: 16px;">
+          Frequently Asked Questions
+        </h2>
+        <p class="body-lg" style="margin-bottom: 32px; color: #4B5563;">
+          Expert answers to the most common questions accountants, bookkeepers, and business owners encounter when converting bank statements and importing transactions into QuickBooks and Xero.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          {faqs.map((faq) => (
+            <details class="faq-accordion-item" style="background-color: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0, 0, 0, 0.08); border-radius: var(--rounded-md); padding: clamp(16px, 3vw, 20px) clamp(18px, 3vw, 24px); cursor: pointer; transition: background-color 150ms ease, box-shadow 150ms ease;">
+              <summary style="font-size: 17.5px; font-weight: 600; outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; color: #0F172A;">
+                <span>{faq.question}</span>
+                <span class="faq-icon" style="font-size: 20px; font-weight: 500; color: #64748B; flex-shrink: 0; transition: transform 200ms ease;">+</span>
+              </summary>
+              <div class="body" style="margin-top: 14px; color: #334155; line-height: 1.65; font-size: 15.5px; border-top: 1px solid rgba(0, 0, 0, 0.06); padding-top: 14px;">
+                {faq.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
   </div>
 </BaseLayout>
 
@@ -1063,6 +1102,19 @@ const faqs = [
     .handwritten-arrow {
       display: none;
     }
+  }
+
+  .faq-accordion-item:hover {
+    background-color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  }
+  .faq-accordion-item[open] {
+    background-color: #FFFFFF !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  }
+  .faq-accordion-item[open] summary .faq-icon {
+    transform: rotate(45deg);
+    color: #0F172A !important;
   }
 </style>
 
