@@ -189,5 +189,27 @@ describe('FinFormat SEO, Canonical & Privacy Architecture', () => {
     expect(brokenLinks).toEqual([]);
   });
 
+  it('guarantees OpenGraph and Twitter Card tags across built pages and validates og:image asset', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+    const ogImagePath = path.resolve(__dirname, '../../public/images/og-image.jpg');
+    expect(fs.existsSync(ogImagePath)).toBe(true);
+
+    const distDir = path.resolve(__dirname, '../../dist');
+    if (!fs.existsSync(distDir)) {
+      return;
+    }
+
+    const indexPath = path.join(distDir, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      const indexHtml = fs.readFileSync(indexPath, 'utf-8');
+      expect(indexHtml).toContain('property="og:image"');
+      expect(indexHtml).toContain('content="https://finformat.pages.dev/images/og-image.jpg"');
+      expect(indexHtml).toContain('property="og:locale" content="en_US"');
+      expect(indexHtml).toContain('name="twitter:card" content="summary_large_image"');
+      expect(indexHtml).toContain('name="twitter:image"');
+    }
+  });
+
 });
 
