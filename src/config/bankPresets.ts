@@ -588,6 +588,115 @@ export const BANK_PRESETS: BankPreset[] = [
     ],
     sampleFileName: 'wise_sample_statement.csv'
   }
+,
+  {
+    slug: 'fnbo-first-national-bank-csv-to-qbo',
+    name: 'FNBO (First National Bank of Omaha)',
+    intuBid: '03514',
+    defaultAccountType: 'CHECKING',
+    category: 'bank',
+    dateFormats: ['MM/DD/YYYY'],
+    requiresSignFlip: false,
+    hasFees: false,
+    description: 'Convert First National Bank of Omaha (FNBO) CSV statements to QuickBooks .QBO format with official INTU.BID 03514 / 14690.',
+    exportInstructions: [
+      'Log into FNBO Online Banking or FNBO Direct',
+      'Navigate to Account Activity and click the Download icon',
+      'Choose "Comma Delimited (.CSV)" format and select your date range',
+      'Drop your FNBO CSV file directly into FinFormat'
+    ],
+    sampleFileName: 'fnbo_sample_statement.csv'
+  },
+  {
+    slug: 'comerica-bank-csv-to-qbo',
+    name: 'Comerica Bank (Treasury & Small Business Checking)',
+    intuBid: '01053',
+    defaultAccountType: 'CHECKING',
+    category: 'bank',
+    dateFormats: ['MM/DD/YYYY'],
+    requiresSignFlip: false,
+    hasFees: false,
+    description: 'Convert Comerica Bank Treasury and Commercial checking CSV statements into QuickBooks .QBO format with INTU.BID 01053.',
+    exportInstructions: [
+      'Log into Comerica Web Banking or Comerica Treasury Management',
+      'Go to Accounts > Activity and select Export',
+      'Select CSV (Comma Separated Values) format and download your file',
+      'Upload the Comerica CSV to FinFormat for instant QBO conversion'
+    ],
+    sampleFileName: 'comerica_sample_statement.csv'
+  },
+  {
+    slug: 'zions-bank-csv-to-qbo',
+    name: 'Zions Bank (Anytime Checking & Commercial Accounts)',
+    intuBid: '02570',
+    defaultAccountType: 'CHECKING',
+    category: 'bank',
+    dateFormats: ['MM/DD/YYYY'],
+    requiresSignFlip: false,
+    hasFees: false,
+    description: 'Convert Zions First National Bank CSV transaction downloads into QuickBooks Web Connect .QBO format with INTU.BID 02570.',
+    exportInstructions: [
+      'Log into Zions Bank Online Banking',
+      'Select your checking or business account and view Activity',
+      'Click the Export icon and choose Comma Separated (CSV)',
+      'Drop your Zions Bank CSV statement into FinFormat'
+    ],
+    sampleFileName: 'zions_sample_statement.csv'
+  },
+  {
+    slug: 'synchrony-bank-csv-to-qbo',
+    name: 'Synchrony Bank (Amazon Store Card, Lowe\'s & CareCredit)',
+    intuBid: '04505',
+    defaultAccountType: 'CREDITCARD',
+    category: 'bank',
+    dateFormats: ['MM/DD/YYYY'],
+    requiresSignFlip: true,
+    hasFees: false,
+    description: 'Convert Synchrony Bank, Amazon Store Card, Lowe\'s, and CareCredit CSV statements into QuickBooks .QBO with automatic sign flipping.',
+    exportInstructions: [
+      'Log into your Synchrony Bank portal (Amazon Store Card, Lowe\'s, CareCredit, or Synchrony.com)',
+      'Navigate to Statements & Activity > Download Transactions',
+      'Select CSV format and save the statement to your computer',
+      'Upload to FinFormat (card purchases are automatically formatted as expenses)'
+    ],
+    sampleFileName: 'synchrony_sample_statement.csv'
+  },
+  {
+    slug: 'sofi-bank-csv-to-qbo',
+    name: 'SoFi Bank (Checking, Savings & SoFi Money)',
+    intuBid: '24823',
+    defaultAccountType: 'CHECKING',
+    category: 'fintech',
+    dateFormats: ['YYYY-MM-DD', 'MM/DD/YYYY'],
+    requiresSignFlip: false,
+    hasFees: false,
+    description: 'Convert SoFi Checking and High-Yield Savings CSV downloads into QuickBooks Web Connect .QBO format with INTU.BID 24823.',
+    exportInstructions: [
+      'Log into SoFi.com or the SoFi web dashboard',
+      'Select your Banking account (Checking or Savings) and view Transactions',
+      'Click Download / Export and select CSV format',
+      'Drop your SoFi CSV into FinFormat for private in-browser conversion'
+    ],
+    sampleFileName: 'sofi_sample_statement.csv'
+  },
+  {
+    slug: 'robinhood-gold-card-csv-to-qbo',
+    name: 'Robinhood Gold Card (3% Cash Back Credit Card & Cash Management)',
+    intuBid: '15894',
+    defaultAccountType: 'CREDITCARD',
+    category: 'fintech',
+    dateFormats: ['YYYY-MM-DD', 'MM/DD/YYYY'],
+    requiresSignFlip: true,
+    hasFees: false,
+    description: 'Convert Robinhood Gold 3% Cash Back Credit Card and Cash Management CSV statements to QuickBooks .QBO format with auto charge inversion.',
+    exportInstructions: [
+      'Open Robinhood on web or app > Spending > Statements & History',
+      'Select your Robinhood Gold Card activity and export as CSV',
+      'Upload the Robinhood CSV directly into FinFormat',
+      'FinFormat auto-inverts positive charges so QuickBooks records them as expenses'
+    ],
+    sampleFileName: 'robinhood_gold_sample_statement.csv'
+  }
 ];
 
 export function getBankPreset(slug: string): BankPreset | undefined {

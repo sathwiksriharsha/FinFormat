@@ -34,7 +34,7 @@ export const INTU_BID_DIRECTORY: IntuBidEntry[] = [
   { fid: '02717', name: 'First Citizens Bank', accountType: 'CHECKING', routingNumber: '053100300', webConnect: true, notes: 'First Citizens Free Checking & Commercial Banking.' },
   { fid: '01869', name: 'Barclays US Consumer Bank', accountType: 'CREDITCARD', webConnect: true, notes: 'Barclays View, JetBlue, and AAdvantage Mastercard.' },
   { fid: '01053', name: 'Comerica Bank', accountType: 'CHECKING', routingNumber: '111000753', webConnect: true, notes: 'Comerica Commercial and Personal Banking.' },
-  { fid: '04505', name: 'Synchrony Bank', accountType: 'CREDITCARD', webConnect: true, notes: 'Synchrony Amazon Store Card, CareCredit, and Premier World.' },
+  { fid: '04505', name: 'Synchrony Bank', accountType: 'CREDITCARD', webConnect: true, notes: 'Synchrony Amazon Store Card, Lowe\'s, CareCredit, and Premier World.' },
   { fid: '02570', name: 'Zions First National Bank', accountType: 'CHECKING', routingNumber: '124000054', webConnect: true, notes: 'Zions Bank Anytime Checking.' },
   { fid: '04712', name: 'Silicon Valley Bank (SVB - First Citizens)', accountType: 'CHECKING', routingNumber: '121140399', webConnect: true, notes: 'Startup venture debt and checking accounts.' },
   { fid: '03102', name: 'American Express Centurion Bank', accountType: 'CREDITCARD', webConnect: true, notes: 'Personal Amex Platinum, Green, and Gold.' },
@@ -42,6 +42,8 @@ export const INTU_BID_DIRECTORY: IntuBidEntry[] = [
   { fid: '01429', name: 'Synovus Bank', accountType: 'CHECKING', routingNumber: '061100606', webConnect: true, notes: 'Synovus Pro and Commercial accounts.' },
   { fid: '02914', name: 'Western Alliance Bank', accountType: 'CHECKING', routingNumber: '122105155', webConnect: true, notes: 'Tech and legal escrow commercial accounts.' },
   { fid: '02115', name: 'BOK Financial (Bank of Oklahoma)', accountType: 'CHECKING', routingNumber: '103900036', webConnect: true, notes: 'BOK Financial Choice Checking.' },
+  { fid: '03514', name: 'First National Bank of Omaha (FNBO)', accountType: 'CHECKING', routingNumber: '104000016', webConnect: true, notes: 'FNBO First National Bank of Omaha checking, business and credit card accounts. Primary Web Connect BID.' },
+  { fid: '14690', name: 'First National Bank of Omaha (FNBO Commercial & Credit)', accountType: 'CHECKING', routingNumber: '104000016', webConnect: true, notes: 'FNBO commercial treasury and credit card Web Connect BID.' },
   { fid: '03423', name: 'First National Bank of Omaha (FNBO)', accountType: 'CHECKING', routingNumber: '104000016', webConnect: true, notes: 'FNBO Access Checking.' },
   { fid: '01659', name: 'East West Bank', accountType: 'CHECKING', routingNumber: '122235821', webConnect: true, notes: 'Cross-border US-Asia commercial banking.' },
   { fid: '02798', name: 'Frost Bank', accountType: 'CHECKING', routingNumber: '114000093', webConnect: true, notes: 'Frost Personal and Commercial Checking.' },
@@ -62,7 +64,9 @@ export const INTU_BID_DIRECTORY: IntuBidEntry[] = [
   { fid: '01515', name: 'First Commonwealth Bank', accountType: 'CHECKING', routingNumber: '043306822', webConnect: true, notes: 'Pennsylvania and Ohio banking.' },
   { fid: '03222', name: 'United Bank (West Virginia / Virginia)', accountType: 'CHECKING', routingNumber: '051500566', webConnect: true, notes: 'Mid-Atlantic regional banking.' },
   { fid: '02888', name: 'WesBanco Bank', accountType: 'CHECKING', routingNumber: '043400036', webConnect: true, notes: 'Ohio Valley commercial checking.' },
-  { fid: '03555', name: 'Valley National Bank', accountType: 'CHECKING', routingNumber: '021202447', webConnect: true, notes: 'New York / New Jersey commercial accounts.' }
+  { fid: '03555', name: 'Valley National Bank', accountType: 'CHECKING', routingNumber: '021202447', webConnect: true, notes: 'New York / New Jersey commercial accounts.' },
+  { fid: '24823', name: 'SoFi Bank, N.A.', accountType: 'CHECKING', routingNumber: '031101344', webConnect: true, notes: 'SoFi Checking, High-Yield Savings, and SoFi Money Web Connect.' },
+  { fid: '15894', name: 'Robinhood Gold Card (Coastal Community Bank)', accountType: 'CREDITCARD', routingNumber: '125108397', webConnect: true, notes: 'Robinhood Gold 3% Cash Back Credit Card Web Connect. Issued by Coastal Community Bank.' }
 ];
 
 export function findIntuBid(query: string): IntuBidEntry[] {
